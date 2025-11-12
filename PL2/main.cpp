@@ -9,4 +9,5 @@
 int main(){
   cout << "Hello, World!" << endl;
   cout << "CodeBlocks does not have any GitHub integration, therefore <<<< any IDE with GitHub management integration" << endl;
+  return 0;
 };
