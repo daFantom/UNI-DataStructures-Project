@@ -1,0 +1,352 @@
+#include "ccontrol.h"
+
+using namespace std;
+
+// ================= METODOS LISTAS SIMPLEMENTE ENLAZADAS =================
+
+// ------------- DESTRUCTOR -------------
+Lista::~Lista()
+{
+    pNodoLista aux;
+    while(cabeza)
+    {
+        aux = cabeza;
+        cabeza = cabeza->siguiente;
+        delete aux;
+    }
+    actual = NULL;
+}
+
+// ------------- INSERTAR UN NODO EN UNA LISTA ------------- 
+void Lista::insertarNodo(int v) {
+    pNodoLista aux;
+
+    if (listaVacia())
+    {
+        cabeza = new NodoLista(v, NULL);
+        final=cabeza;
+    }
+    else
+    {
+        aux= new NodoLista(v,NULL);
+        final->siguiente=aux;
+        final=aux;
+    }
+}
+// -------------  BORRAR UN NODO DE UNA LISTA ------------- 
+void Lista::borrarNodo(int v) {
+    pNodoLista anterior;
+
+    actual = cabeza;
+
+    while (actual->valor!=v && (actual->siguiente)!=NULL)
+    {
+        anterior=actual;
+        actual=actual->siguiente;
+    }
+
+    if (actual->valor == v){ //comprobacion de que esta v en la lista
+        if(actual==cabeza)
+            cabeza = actual->siguiente;
+        else
+        {
+            anterior->siguiente = actual->siguiente;
+            if (actual==final)
+            {
+                final=anterior;
+            }
+        }
+        actual->siguiente=NULL;
+        delete actual;
+    }
+}
+
+// ------------- COMPROBAR SI UNA LISTA ESTA VACIA ------------- 
+bool Lista::listaVacia(){
+    return cabeza == NULL;
+}
+
+// ------------- PONER EL PUNTERO "ACTUAL" A LA CABEZA DE LA LISTA -------------
+void Lista::esCabeza()
+{
+    actual = cabeza;
+}
+
+// ------------- PONER EL PUNTERO "ACTUAL" AL FINAL DE LA LISTA -------------
+void Lista::esFinal()
+{
+    esCabeza();
+    if(!listaVacia())
+        while(actual->siguiente)
+            esSiguiente();
+}
+
+// ------------- PONER EL PUNTERO "ACTUAL" A LA SIGUIENTE POSICION DE LA LISTA ------------- 
+void Lista::esSiguiente()
+{
+    if(actual) actual = actual->siguiente;
+}
+
+// ------------- COMPRUEBA SI EL PUNTERO "ACTUAL" ES NULO O NO??? ------------- 
+bool Lista::esActual()
+{
+    return actual != NULL;
+}
+
+// ------------- VER EL VALOR DEL PUNTERO "ACTUAL" ------------- 
+int Lista::valorActual()
+{
+    return actual->valor;
+}
+
+// ------------- RECORRER UNA LISTA ENTERA ------------- 
+void Lista::recorrerLista()
+{
+    pNodoLista aux;
+    aux = cabeza;
+
+    while(aux)
+    {
+        cout << aux->valor << "-> ";
+        aux = aux->siguiente;
+    }
+    cout << endl;
+}
+// ||||||||||||||||||||| FIN METODOS LISTAS SIMPLEMENTE ENLAZADAS |||||||||||||||||||||
+
+// ================= METODOS ARBOLES DE BUSQUEDA =================
+
+// ------------- DESTRUCTOR -------------
+ArbolABB::~ArbolABB()
+        {
+            Podar(raiz);
+        }
+
+// ------------- ARBOL VACIO -------------
+bool ArbolABB::Vacio(pNodoArbol r)
+        {
+            return r==NULL;
+        }
+
+// ------------- NODO ES HOJA? -------------
+bool ArbolABB::EsHoja(pNodoArbol r)
+        {
+            return !r->derecho && !r->izquierdo;
+        }
+
+// ------------- COLOCAR PUNTERO "ACTUAL" A LA RAIZ DEL ARBOL -------------
+void ArbolABB::Raiz()
+        {
+            actual = raiz;
+        }
+
+// ------------- auxiliar -> PODAR: BORRA TODOS LOS NODOS A PARTIR DE UNO DADO -------------
+void ArbolABB::Podar(NodoArbol* &nodo)
+{
+   // Algoritmo recursivo, recorrido en postorden
+   if(nodo) {
+      Podar(nodo->izquierdo); // Podar izquierdo
+      Podar(nodo->derecho);   // Podar derecho
+      delete nodo;            // Eliminar nodo
+      nodo = NULL;
+   }
+}
+
+// ------------- INSERTAR UN ENTERO (INT) EN UN ABB -------------
+void ArbolABB::Insertar(const int dat)
+{
+   pNodoArbol padre = NULL;
+
+   actual = raiz;
+   // Buscar el int en el arbol, manteniendo un puntero al nodo padre
+   while(!Vacio(actual) && dat != actual->dato) {
+      padre = actual;
+      if(dat > actual->dato) actual = actual->derecho;
+      else if(dat < actual->dato) actual = actual->izquierdo;
+   }
+
+   // Si se ha encontrado el elemento, regresar sin insertar
+   if(!Vacio(actual)) return;
+
+   // Si padre es NULL, entonces el arbol estaba vacio, el nuevo nodo sera el nodo raiz
+   if(Vacio(padre)) raiz = new NodoArbol(dat);
+
+   // Si el int es menor que el que contiene el nodo padre, lo insertamos en la rama izquierda
+   else if(dat < padre->dato) padre->izquierdo = new NodoArbol(dat);
+
+   // Si el int es mayor que el que contiene el nodo padre, lo insertamos en la rama derecha
+   else if(dat > padre->dato) padre->derecho = new NodoArbol(dat);
+}
+
+// Eliminar un elemento de un arbol ABB
+void ArbolABB::Borrar(const int dat)
+{
+   pNodoArbol padre = NULL;
+   pNodoArbol nodo;
+   int aux;
+
+   actual = raiz;
+   // Mientras sea posible que el valor esta en el arbol
+   while(!Vacio(actual)) {
+      if(dat == actual->dato) { // Si el valor esta en el nodo actual
+         if(EsHoja(actual)) { // Y si ademas es un nodo hoja: lo borramos
+            if(padre){ // Si tiene padre (no es el nodo raiz)
+               // Anulamos el puntero que le hace referencia
+               if(padre->derecho == actual) padre->derecho = NULL;
+               else if(padre->izquierdo == actual) padre->izquierdo = NULL;
+            }
+            else raiz=NULL;
+
+            delete actual; // Borrar el nodo
+            actual = NULL;
+            return;
+         }
+         else { // Si el valor esta en el nodo actual, pero no es hoja
+            // Buscar nodo
+            padre = actual;
+            // Buscar nodo mas izquierdo de rama derecha
+            if(actual->derecho) {
+               nodo = actual->derecho;
+               while(nodo->izquierdo) {
+                  padre = nodo;
+                  nodo = nodo->izquierdo;
+               }
+            }
+            // O buscar nodo mas derecho de rama izquierda
+            else {
+               nodo = actual->izquierdo;
+               while(nodo->derecho) {
+                  padre = nodo;
+                  nodo = nodo->derecho;
+               }
+            }
+            // Intercambiar valores de no a borrar u nodo encontrado
+            // y continuar, cerrando el bucle. El nodo encontrado no tiene
+            // por que ser un nodo hoja, cerrando el bucle nos aseguramos
+            // de que solo se eliminan nodos hoja.
+            aux = actual->dato;
+            actual->dato = nodo->dato;
+            nodo->dato = aux;
+            actual = nodo;
+         }
+      }
+      else { // Todavia no hemos encontrado el valor, seguir buscandolo
+         padre = actual;
+         if(dat > actual->dato) actual = actual->derecho;
+         else if(dat < actual->dato) actual = actual->izquierdo;
+      }
+   }
+}
+
+//  ------------- RECCORRIDO DEL ARBOL EN IN-ORDEN (aplicamos la funcion func, que tiene el prototipo): -------------
+
+// void func(int&);
+void ArbolABB::InOrden(void (*func)(int) , pNodoArbol nodo, bool r)
+{
+  if (raiz==NULL) {cout<<"Arbol vacio"<<endl; return;}
+   if(r) nodo = raiz;
+   if(nodo->izquierdo) InOrden(func, nodo->izquierdo, false);
+   func(nodo->dato);
+   if(nodo->derecho) InOrden(func, nodo->derecho, false);
+}
+
+// ------------- RECORRIDO DEL ARBOL EN PRE-ORDEN (aplicamos la funcion func, que tiene el prototipo): -------------
+
+// void func(int&);
+void ArbolABB::PreOrden(void (*func)(int), pNodoArbol nodo, bool r)
+{
+      if (raiz==NULL) {cout<<"Arbol vacio"<<endl; return;}
+   if(r) nodo = raiz;
+   func(nodo->dato);
+   if(nodo->izquierdo) PreOrden(func, nodo->izquierdo, false);
+   if(nodo->derecho) PreOrden(func, nodo->derecho, false);
+}
+
+// ------------- RECORRIDO DEL ARBOL EN POST-ORDEN (aplicamos la funcion func, que tiene el prototipo): -------------
+
+// void func(int&);
+void ArbolABB::PostOrden(void (*func)(int), pNodoArbol nodo, bool r)
+{
+      if (raiz==NULL) {cout<<"Arbol vacio"<<endl; return;}
+   if(r) nodo = raiz;
+   if(nodo->izquierdo) PostOrden(func, nodo->izquierdo, false);
+   if(nodo->derecho) PostOrden(func, nodo->derecho, false);
+   func(nodo->dato);
+}
+
+// ------------- BUSCAR UN ENTERO (int) EN EL ARBOL -------------
+bool ArbolABB::Buscar(const int dat)
+{
+   actual = raiz;
+
+   // Todavia puede aparecer, ya que quedan nodos por mirar
+   while(!Vacio(actual)) {
+      if(dat == actual->dato) return true; // int encontrado
+      else if(dat > actual->dato) actual = actual->derecho; // Seguir
+      else if(dat < actual->dato) actual = actual->izquierdo;
+   }
+   return false; // No esta en arbol
+}
+
+// ------------- CALCULAR LA ALTURA DEL NODO QUE CONTIENE EL DATO ENTERO (int dat) -------------
+int ArbolABB::Altura(const int dat)
+{
+   int altura = 0;
+   actual = raiz;
+
+   // Todavia puede aparecer, ya que quedan nodos por mirar
+   while(!Vacio(actual)) {
+      if(dat == actual->dato) return altura; // int encontrado
+      else {
+         altura++; // Incrementamos la altura, seguimos buscando
+         if(dat > actual->dato) actual = actual->derecho;
+         else if(dat < actual->dato) actual = actual->izquierdo;
+      }
+   }
+   return -1; // No esta en arbol
+}
+
+// ------------- CONTAR EL NUMERO DE NODOS -------------
+const int ArbolABB::NumeroNodos()
+{
+   contador = 0;
+
+   auxContador(raiz); // Funcion auxiliar
+   return contador;
+}
+
+// ------------- Funcion auxiliar para contar nodos. Funcion recursiva de recorrido en preorden, el proceso es aumentar el contador -------------
+void ArbolABB::auxContador(pNodoArbol nodo)
+{
+   contador++;  // Otro nodo
+   // Continuar recorrido
+   if(nodo->izquierdo) auxContador(nodo->izquierdo);
+   if(nodo->derecho)   auxContador(nodo->derecho);
+}
+
+// ------------- CALCULAR LA ALTURA DEL ARBOL (el nodo mayor de dicho arbol) -------------
+const int ArbolABB::AlturaArbol()
+{
+   altura = 0;
+
+   auxAltura(raiz, 0); // Funcion auxiliar
+   return altura;
+}
+
+// Funcion auxiliar para calcular altura. Funcion recursiva de recorrido en postorden, el proceso es actualizar la altura solo en nodos hojas de mayor altura de la maxima actual
+void ArbolABB::auxAltura(pNodoArbol nodo, int a)
+{
+   // Recorrido postorden
+   if(nodo->izquierdo) auxAltura(nodo->izquierdo, a+1);
+   if(nodo->derecho)   auxAltura(nodo->derecho, a+1);
+
+   // Proceso, si es un nodo hoja, y su altura es mayor que la actual del arbol, actualizamos la altura actual del arbol
+   if(EsHoja(nodo) && a > altura) altura = a;
+}
+
+// -------------  FUNCION DE PRUEBA PARA RECORRRIDOS DE UN ARBOL -------------
+void Mostrar(int d)
+{
+   cout << d << ",";
+}
+// ||||||||||||||||||||| FIN METODOS ARBOLES DE BUSQUEDA |||||||||||||||||||||
