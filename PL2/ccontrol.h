@@ -1,7 +1,10 @@
 #ifndef CCONTROL_H
-#define CCONTROL_HG
+#define CCONTROL_H
 
 #include <iostream>
+#include <string>
+
+using namespace std;
 
 // ===== CONSTANTES =====
 
@@ -91,7 +94,7 @@ class ArbolABB
     private:
         // Punteros de la lista, para cabeza y nodo actual:
         pNodoArbol raiz; // Puntero a la raiz
-        pNodoArbol actual; // Puntero al nodo actual del arbol, inicialmente 
+        pNodoArbol actual; // Puntero al nodo actual del arbol, inicialmente
         int contador;   // Contador para la altura??
         int altura; // Valor de la altura del arbol
 
@@ -137,7 +140,7 @@ class ArbolABB
         void auxAltura(NodoArbol*, int);
 };
 
-// ||||||||||||||||||||| FIN CLASE ARBOLES DE BUSQUEDA ||||||||||||||||||||| 
+// ||||||||||||||||||||| FIN CLASE ARBOLES DE BUSQUEDA |||||||||||||||||||||
 
 // ================= STRUCTS =================
 
@@ -158,7 +161,7 @@ struct Libreria{
     Lista *listaPedidos = new Lista();
 };
 
-// ||||||||||||||||||||| FIN STRUCTS ||||||||||||||||||||| 
+// ||||||||||||||||||||| FIN STRUCTS |||||||||||||||||||||
 
 
 #endif

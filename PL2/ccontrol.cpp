@@ -1,4 +1,5 @@
 #include "ccontrol.h"
+#include <string>
 
 using namespace std;
 
@@ -17,7 +18,7 @@ Lista::~Lista()
     actual = NULL;
 }
 
-// ------------- INSERTAR UN NODO EN UNA LISTA ------------- 
+// ------------- INSERTAR UN NODO EN UNA LISTA -------------
 void Lista::insertarNodo(int v) {
     pNodoLista aux;
 
@@ -33,7 +34,7 @@ void Lista::insertarNodo(int v) {
         final=aux;
     }
 }
-// -------------  BORRAR UN NODO DE UNA LISTA ------------- 
+// -------------  BORRAR UN NODO DE UNA LISTA -------------
 void Lista::borrarNodo(int v) {
     pNodoLista anterior;
 
@@ -61,7 +62,7 @@ void Lista::borrarNodo(int v) {
     }
 }
 
-// ------------- COMPROBAR SI UNA LISTA ESTA VACIA ------------- 
+// ------------- COMPROBAR SI UNA LISTA ESTA VACIA -------------
 bool Lista::listaVacia(){
     return cabeza == NULL;
 }
@@ -81,25 +82,25 @@ void Lista::esFinal()
             esSiguiente();
 }
 
-// ------------- PONER EL PUNTERO "ACTUAL" A LA SIGUIENTE POSICION DE LA LISTA ------------- 
+// ------------- PONER EL PUNTERO "ACTUAL" A LA SIGUIENTE POSICION DE LA LISTA -------------
 void Lista::esSiguiente()
 {
     if(actual) actual = actual->siguiente;
 }
 
-// ------------- COMPRUEBA SI EL PUNTERO "ACTUAL" ES NULO O NO??? ------------- 
+// ------------- COMPRUEBA SI EL PUNTERO "ACTUAL" ES NULO O NO??? -------------
 bool Lista::esActual()
 {
     return actual != NULL;
 }
 
-// ------------- VER EL VALOR DEL PUNTERO "ACTUAL" ------------- 
+// ------------- VER EL VALOR DEL PUNTERO "ACTUAL" -------------
 int Lista::valorActual()
 {
     return actual->valor;
 }
 
-// ------------- RECORRER UNA LISTA ENTERA ------------- 
+// ------------- RECORRER UNA LISTA ENTERA -------------
 void Lista::recorrerLista()
 {
     pNodoLista aux;
