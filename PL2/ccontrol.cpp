@@ -114,6 +114,7 @@ void Lista::recorrerLista()
     }
     cout << endl;
 }
+
 // ||||||||||||||||||||| FIN METODOS LISTAS SIMPLEMENTE ENLAZADAS |||||||||||||||||||||
 
 // ================= METODOS ARBOLES DE BUSQUEDA =================
@@ -154,43 +155,43 @@ void ArbolABB::Podar(NodoArbol* &nodo)
    }
 }
 
-// ------------- INSERTAR UN ENTERO (INT) EN UN ABB -------------
-void ArbolABB::Insertar(const int dat)
+// ------------- INSERTAR UNA LIBRERIA EN UN ABB -------------
+void ArbolABB::Insertar(const Libreria lib)//const int dat-> lo que he cambiado
 {
    pNodoArbol padre = NULL;
 
    actual = raiz;
    // Buscar el int en el arbol, manteniendo un puntero al nodo padre
-   while(!Vacio(actual) && dat != actual->dato) {
+   while(!Vacio(actual) && lib.id_libreria != actual->libreria.id_libreria) {
       padre = actual;
-      if(dat > actual->dato) actual = actual->derecho;
-      else if(dat < actual->dato) actual = actual->izquierdo;
+      if(lib.id_libreria > actual->libreria.id_libreria) actual = actual->derecho;
+      else if(lib.id_libreria < actual->libreria.id_libreria) actual = actual->izquierdo;
    }
 
    // Si se ha encontrado el elemento, regresar sin insertar
    if(!Vacio(actual)) return;
 
    // Si padre es NULL, entonces el arbol estaba vacio, el nuevo nodo sera el nodo raiz
-   if(Vacio(padre)) raiz = new NodoArbol(dat);
+   if(Vacio(padre)) raiz = new NodoArbol(lib);
 
    // Si el int es menor que el que contiene el nodo padre, lo insertamos en la rama izquierda
-   else if(dat < padre->dato) padre->izquierdo = new NodoArbol(dat);
+   else if(lib.id_libreria < padre->libreria.id_libreria) padre->izquierdo = new NodoArbol(lib);
 
    // Si el int es mayor que el que contiene el nodo padre, lo insertamos en la rama derecha
-   else if(dat > padre->dato) padre->derecho = new NodoArbol(dat);
+   else if(lib.id_libreria > padre->libreria.id_libreria) padre->derecho = new NodoArbol(lib);
 }
 
-// Eliminar un elemento de un arbol ABB
-void ArbolABB::Borrar(const int dat)
+// ------------- ELIMINAR UNA LIBRERIA EN UN ABB -------------
+void ArbolABB::Borrar(const Libreria lib)//int dat->lo que he cambiado
 {
    pNodoArbol padre = NULL;
    pNodoArbol nodo;
-   int aux;
+   Libreria aux;
 
    actual = raiz;
    // Mientras sea posible que el valor esta en el arbol
    while(!Vacio(actual)) {
-      if(dat == actual->dato) { // Si el valor esta en el nodo actual
+      if(lib.id_libreria == actual->libreria.id_libreria) { // Si el valor esta en el nodo actual
          if(EsHoja(actual)) { // Y si ademas es un nodo hoja: lo borramos
             if(padre){ // Si tiene padre (no es el nodo raiz)
                // Anulamos el puntero que le hace referencia
@@ -226,16 +227,16 @@ void ArbolABB::Borrar(const int dat)
             // y continuar, cerrando el bucle. El nodo encontrado no tiene
             // por que ser un nodo hoja, cerrando el bucle nos aseguramos
             // de que solo se eliminan nodos hoja.
-            aux = actual->dato;
-            actual->dato = nodo->dato;
-            nodo->dato = aux;
+            aux = actual->libreria;
+            actual->libreria = nodo->libreria;
+            nodo->libreria = aux;
             actual = nodo;
          }
       }
       else { // Todavia no hemos encontrado el valor, seguir buscandolo
          padre = actual;
-         if(dat > actual->dato) actual = actual->derecho;
-         else if(dat < actual->dato) actual = actual->izquierdo;
+         if(lib.id_libreria > actual->libreria.id_libreria) actual = actual->derecho;
+         else if(lib.id_libreria < actual->libreria.id_libreria) actual = actual->izquierdo;
       }
    }
 }
@@ -243,23 +244,23 @@ void ArbolABB::Borrar(const int dat)
 //  ------------- RECCORRIDO DEL ARBOL EN IN-ORDEN (aplicamos la funcion func, que tiene el prototipo): -------------
 
 // void func(int&);
-void ArbolABB::InOrden(void (*func)(int) , pNodoArbol nodo, bool r)
+void ArbolABB::InOrden(void (*func)(Libreria) , pNodoArbol nodo, bool r)
 {
   if (raiz==NULL) {cout<<"Arbol vacio"<<endl; return;}
    if(r) nodo = raiz;
    if(nodo->izquierdo) InOrden(func, nodo->izquierdo, false);
-   func(nodo->dato);
+   func(nodo->libreria);
    if(nodo->derecho) InOrden(func, nodo->derecho, false);
 }
 
 // ------------- RECORRIDO DEL ARBOL EN PRE-ORDEN (aplicamos la funcion func, que tiene el prototipo): -------------
 
 // void func(int&);
-void ArbolABB::PreOrden(void (*func)(int), pNodoArbol nodo, bool r)
+void ArbolABB::PreOrden(void (*func)(Libreria), pNodoArbol nodo, bool r)
 {
       if (raiz==NULL) {cout<<"Arbol vacio"<<endl; return;}
    if(r) nodo = raiz;
-   func(nodo->dato);
+   func(nodo->libreria);
    if(nodo->izquierdo) PreOrden(func, nodo->izquierdo, false);
    if(nodo->derecho) PreOrden(func, nodo->derecho, false);
 }
@@ -267,42 +268,42 @@ void ArbolABB::PreOrden(void (*func)(int), pNodoArbol nodo, bool r)
 // ------------- RECORRIDO DEL ARBOL EN POST-ORDEN (aplicamos la funcion func, que tiene el prototipo): -------------
 
 // void func(int&);
-void ArbolABB::PostOrden(void (*func)(int), pNodoArbol nodo, bool r)
+void ArbolABB::PostOrden(void (*func)(Libreria), pNodoArbol nodo, bool r)
 {
       if (raiz==NULL) {cout<<"Arbol vacio"<<endl; return;}
    if(r) nodo = raiz;
    if(nodo->izquierdo) PostOrden(func, nodo->izquierdo, false);
    if(nodo->derecho) PostOrden(func, nodo->derecho, false);
-   func(nodo->dato);
+   func(nodo->libreria);
 }
 
-// ------------- BUSCAR UN ENTERO (int) EN EL ARBOL -------------
-bool ArbolABB::Buscar(const int dat)
+// ------------- BUSCAR UNA LIBRERIA EN EL ARBOL -------------
+bool ArbolABB::Buscar(const Libreria lib)
 {
    actual = raiz;
 
    // Todavia puede aparecer, ya que quedan nodos por mirar
    while(!Vacio(actual)) {
-      if(dat == actual->dato) return true; // int encontrado
-      else if(dat > actual->dato) actual = actual->derecho; // Seguir
-      else if(dat < actual->dato) actual = actual->izquierdo;
+      if(lib.id_libreria == actual->libreria.id_libreria) return true; // int encontrado
+      else if(lib.id_libreria > actual->libreria.id_libreria) actual = actual->derecho; // Seguir
+      else if(lib.id_libreria < actual->libreria.id_libreria) actual = actual->izquierdo;
    }
    return false; // No esta en arbol
 }
 
-// ------------- CALCULAR LA ALTURA DEL NODO QUE CONTIENE EL DATO ENTERO (int dat) -------------
-int ArbolABB::Altura(const int dat)
+// ------------- CALCULAR LA ALTURA DEL NODO QUE CONTIENE LA LIBRERIA INDICADA -------------
+int ArbolABB::Altura(const Libreria lib)
 {
    int altura = 0;
    actual = raiz;
 
    // Todavia puede aparecer, ya que quedan nodos por mirar
    while(!Vacio(actual)) {
-      if(dat == actual->dato) return altura; // int encontrado
+      if(lib.id_libreria == actual->libreria.id_libreria) return altura; // int encontrado
       else {
          altura++; // Incrementamos la altura, seguimos buscando
-         if(dat > actual->dato) actual = actual->derecho;
-         else if(dat < actual->dato) actual = actual->izquierdo;
+         if(lib.id_libreria > actual->libreria.id_libreria) actual = actual->derecho;
+         else if(lib.id_libreria < actual->libreria.id_libreria) actual = actual->izquierdo;
       }
    }
    return -1; // No esta en arbol
@@ -358,7 +359,7 @@ void Mostrar(int d)
 // =========================  FUNCION PARA ESCRITURA DE LAS LIBRERIAS EN EL MENU =========================
 void mostrarLibrerias(Libreria lib){
 
-    cout<<setw(2)<<"ID"<<lib.id_libreria<<setw(2)<<"Localidad: "<<lib.localidad <<setw(12)<<" Num Pedidos: "<<setw(3)<<endl;
+    cout<<setw(2)<<"ID"<<lib.id_libreria<<setw(2)<<"Localidad: "<<lib.localidad <<setw(12)<<" Num Pedidos: "<<lib.listaPedidos->contarPedidosLib()<<setw(3)<<endl;
 
 }
 // =========================  FUNCION PARA ESCRITURA DE LAS LIBRERIAS EN EL MENU =========================
@@ -378,7 +379,9 @@ Libreria genLibreria(){
      "Aranjuez", "Arganda", "Boadilla", "Pinto", "Colmenar", "Tres Cantos"};
     localidad = librerias[rand()%(sizeof(librerias)/sizeof(librerias[0]))];
 
-    Libreria libreria = {id_libreria,localidad};
+
+
+    Libreria libreria = {id_libreria,localidad, new Lista()};
     return libreria;
 
 }
@@ -404,3 +407,31 @@ Pedido genPedido (string id_libreria){
     Pedido ped = {id_libreria,id_pedido,cod_libro,materia,cantidad,fecha_envio};
     return ped;
 }
+// =========================  FUNCION PARA CONTAR PEDIDOS EN UNA LISTA DE UNA LIBRERIA =========================
+
+int Lista::contarPedidosLib(){
+   pNodoLista aux;
+   aux = cabeza;
+
+   int contador = 0;
+
+   while(aux!= NULL){
+       contador++;
+       aux = aux->siguiente;
+
+   }
+   return contador;
+
+}
+// =========================  INSERTAR EN UNA LIBRERIA(CORRESPONDIENTE A OPCION 1) =========================
+
+void insertarEnListaLib(Pedido ped){
+
+}
+// =========================  CONVERTIR LIBRERIA EN UN NODO DE UN ARBOL =========================
+
+//en estos momentos no se está utilizando esta funcion
+NodoArbol* crearNodoLib(Libreria lib){
+    return new NodoArbol(lib);
+}
+

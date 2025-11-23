@@ -13,29 +13,6 @@ using namespace std;
 
 // |||| FIN CONSTANTES ||||
 
-// ================= CLASE NODO PARA LOS ARBOLES DE BUSQUEDA BINARIA =================
-
-class NodoArbol
-{
-    private:
-        // Atributos:
-        int dato; // Dato que queremos guardar, en nuestro caso sera un puntero a una lista.
-        NodoArbol *izquierdo;    // Puntero al nodo / hijo izquierdo.
-        NodoArbol *derecho;  // Puntero al nodo / hijo derecho.
-        friend class ArbolABB; // Para que la clase ArbolABB pueda acceder a los atributos privados de la clase NodoArbol.
-
-    public:
-        // Constructor:
-        NodoArbol(const int dat, NodoArbol *izq=NULL, NodoArbol *der=NULL) :
-            dato(dat), izquierdo(izq), derecho(der) {} // Crea un nodo cuyo valor del dato no se puede cambiar (const) y pone al principio los punteros de los hijos a nulo.
-
-};
-
-typedef NodoArbol *pNodoArbol; // Para no tener que poner NodoArbol *var
-
-// ||||||||||||||||||||| FIN CLASE NODO PARA LOS ARBOLES DE BUSQUEDA BINARIA |||||||||||||||||||||
-
-
 // ================= CLASE NODO PARA LA LISTAS =================
 
 class NodoLista
@@ -56,7 +33,6 @@ public:
 typedef NodoLista *pNodoLista; // Para no tener que poner NodoLista *var
 
 // ||||||||||||||||||||| FIN CLASE NODO PARA LA LISTAS |||||||||||||||||||||
-
 
 // ================= CLASE LISTA SIMPLEMENTE ENLAZADA =================
 
@@ -81,10 +57,54 @@ public:
     bool esActual();
     int valorActual();
     void recorrerLista();
+    int contarPedidosLib();
 
 };
 
 // ||||||||||||||||||||| FIN CLASE LISTA SIMPLEMENTE ENLAZADA |||||||||||||||||||||
+
+// ================= STRUCTS =================
+
+// ------ PEDIDO ------
+struct Pedido{
+    string id_libreria;
+    string id_pedido;
+    string cod_libro;
+    string materia;
+    string cantidad;
+    string fecha_envio;
+};
+
+// ------ LIBRERIA ------
+struct Libreria{
+    string id_libreria;
+    string localidad;
+    Lista *listaPedidos;
+};
+
+// ||||||||||||||||||||| FIN STRUCTS |||||||||||||||||||||
+
+// ================= CLASE NODO PARA LOS ARBOLES DE BUSQUEDA BINARIA =================
+
+class NodoArbol
+{
+    private:
+        // Atributos:
+        Libreria libreria;// Dato que queremos guardar, en nuestro caso sera un puntero a una lista.
+        NodoArbol *izquierdo;    // Puntero al nodo / hijo izquierdo.
+        NodoArbol *derecho;  // Puntero al nodo / hijo derecho.
+        friend class ArbolABB; // Para que la clase ArbolABB pueda acceder a los atributos privados de la clase NodoArbol.
+
+    public:
+        // Constructor:
+        NodoArbol(const Libreria& lib, NodoArbol *izq=NULL, NodoArbol *der=NULL) :
+            libreria(lib), izquierdo(izq), derecho(der) {} // Crea un nodo cuyo valor del dato no se puede cambiar (const) y pone al principio los punteros de los hijos a nulo.
+
+};
+
+typedef NodoArbol *pNodoArbol; // Para no tener que poner NodoArbol *var
+
+// ||||||||||||||||||||| FIN CLASE NODO PARA LOS ARBOLES DE BUSQUEDA BINARIA |||||||||||||||||||||
 
 
 // ================= CLASE ARBOL DE BUSQUEDA BINARIA =================
@@ -104,13 +124,13 @@ class ArbolABB
         ~ArbolABB(); // Destructor del arbol, me imagino que libera cada nodo del arbol.
 
          // Insertar en arbol ordenado:
-        void Insertar(const int dat);
+        void Insertar(const Libreria lib);
 
         // Borrar un elemento del arbol:
-        void Borrar(const int dat);
+        void Borrar(const Libreria lib);
 
         // Funcion de busqueda:
-        bool Buscar(const int dat);
+        bool Buscar(const Libreria lib);
 
         // Comprobar si el arbol esta vacio:
         bool Vacio(pNodoArbol r);
@@ -123,15 +143,15 @@ class ArbolABB
         const int AlturaArbol();
 
         // Calcular altura de un int:
-        int Altura(const int dat);
+        int Altura(const Libreria lib);
 
         // Moverse al nodo raiz:
         void Raiz();
 
         // Aplicar una funcion a cada elemento del arbol:
-        void InOrden(void (*func)(int), pNodoArbol nodo=NULL, bool r=true);
-        void PreOrden(void (*func)(int), pNodoArbol nodo=NULL, bool r=true);
-        void PostOrden(void (*func)(int), pNodoArbol nodo=NULL, bool r=true);
+        void InOrden(void (*func)(Libreria), pNodoArbol nodo=NULL, bool r=true);
+        void PreOrden(void (*func)(Libreria), pNodoArbol nodo=NULL, bool r=true);
+        void PostOrden(void (*func)(Libreria), pNodoArbol nodo=NULL, bool r=true);
 
     private:
         // Funciones auxiliares
@@ -142,33 +162,16 @@ class ArbolABB
 
 // ||||||||||||||||||||| FIN CLASE ARBOLES DE BUSQUEDA |||||||||||||||||||||
 
-// ================= STRUCTS =================
-
-// ------ PEDIDO ------
-struct Pedido{
-    string id_libreria;
-    string id_pedido;
-    string cod_libro;
-    string materia;
-    string cantidad;
-    string fecha_envio;
-};
-
-// ------ LIBRERIA ------
-struct Libreria{
-    string id_libreria;
-    string localidad;
-    //Lista *listaPedidos = new Lista();  solo de momento
-};
-
-// ||||||||||||||||||||| FIN STRUCTS |||||||||||||||||||||
-
 
 //DECLARACION DE FUNCIONES//
 void mostrarLibrerias(Libreria lib);
 void mostrarPedidos(Pedido ped);
 Libreria genLibreria();
 Pedido genPedido (string id_libreria);
+
+NodoArbol* crearNodoLib(Libreria lib);
+
+
 
 
 #endif
