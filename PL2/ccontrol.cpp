@@ -359,14 +359,14 @@ void Mostrar(int d)
 // =========================  FUNCION PARA ESCRITURA DE LAS LIBRERIAS EN EL MENU =========================
 void mostrarLibrerias(Libreria lib){
 
-    cout<<setw(2)<<"ID"<<lib.id_libreria<<setw(2)<<"Localidad: "<<lib.localidad <<setw(12)<<" Num Pedidos: "<<lib.listaPedidos->contarPedidosLib()<<setw(3)<<endl;
+    cout<<setw(2)<<"ID_LIB: "<<lib.id_libreria<<setw(2)<<" - Localidad: "<<lib.localidad <<setw(12)<<" - Num Pedidos: "<<lib.listaPedidos->contarPedidosLib()<<endl;
 
 }
 // =========================  FUNCION PARA ESCRITURA DE LAS LIBRERIAS EN EL MENU =========================
 void mostrarPedidos(Pedido ped){
 
 
-    cout<<setw(4)<<ped.id_libreria<<setw(10)<<ped.id_pedido<<setw(8)<<ped.cod_libro<<setw(12)<<ped.materia<<setw(4)<<ped.cantidad<<"|"<<setw(10)<<ped.fecha_envio<<endl;
+    cout<<setw(7)<<ped.id_libreria<<'|'<<setw(10)<<ped.id_pedido<<'|'<<setw(8)<<ped.cod_libro<<'|'<<setw(12)<<ped.materia<<'|'<<setw(4)<<ped.cantidad<<"|"<<setw(11)<<ped.fecha_envio<<endl;
 
 }
 
@@ -397,7 +397,7 @@ Pedido genPedido (string id_libreria){
 
     string cantidad = to_string(rand()%21);
 
-    string fecha_envio = to_string(rand()%32)+"-"+to_string(rand()%13)+"- 2025";
+    string fecha_envio = to_string(rand()%32)+"-"+to_string(rand()%13)+"-2025";
 
     string materias[6] ={"Matematicas","Fisica","Tecnologia","Musica","Historia", "Lengua"};
     string materia = materias[rand()%(sizeof(materias)/sizeof(materias[0]))];
@@ -430,7 +430,7 @@ void insertarEnListaLib(Pedido ped){
 }
 // =========================  CONVERTIR LIBRERIA EN UN NODO DE UN ARBOL =========================
 
-//en estos momentos no se está utilizando esta funcion
+//en estos momentos no se esta utilizando esta funcion
 NodoArbol* crearNodoLib(Libreria lib){
     return new NodoArbol(lib);
 }

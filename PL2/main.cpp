@@ -14,8 +14,8 @@ int main(){
   Lista listaux;//Declaracion de lista generica
 
 
-  cout<< "Creado el ABB con"<< N_LIBRERIAS << "nodos"<<endl;
-  cout<< "Arbol vacio creado:"<<endl;
+  cout<< "Creado el ABB con "<< N_LIBRERIAS << " nodos"<<endl;
+  cout<< "Arbol vacio creado: "<<endl;
 
   //Para usar los ID de librerias en los pedidos y para convertir librerias en nodos de un arbol:
   Libreria id[N_LIBRERIAS] = {};
@@ -25,24 +25,24 @@ int main(){
     ab.Insertar(lib);
     mostrarLibrerias(lib);
   }
-
+  cout<<endl;
 
 
   cout<< "Creando los siguientes pedidos nuevos:"<<endl;
-  cout<<"-----------------------------------------------------"<<endl;
-  cout<<setw(4)<<"ID Lib"<<"|"<<setw(10)<<"ID_Pedido"<<"|"<<setw(8)<<"Codigo"<<"|"<<setw(12)<<"Materia"<<"|"<<setw(4)<<"U"<<"|"<<setw(10)<<"Fecha"<<"|"<<endl;
-  cout<<"-----------------------------------------------------"<<endl;
+  cout<<"----------------------------------------------------------"<<endl;
+  cout<<setw(7)<<"ID Lib"<<"|"<<setw(10)<<"ID_Pedido"<<"|"<<setw(8)<<"Codigo"<<"|"<<setw(12)<<"Materia"<<"|"<<setw(4)<<"U"<<"|"<<setw(11)<<"Fecha"<<"|"<<endl;
+  cout<<"----------------------------------------------------------"<<endl;
 
   for (int i=0; i<N_PEDIDOS; i++){
     int aleat = rand()%10;
     Pedido ped = genPedido(id[aleat].id_libreria);
     //insertar cada pedido en una lista generica para su posterior distribucion
     mostrarPedidos(ped);
-
   }
+  cout<<endl;
 
 
-  //Menú principal
+  //Menu principal
   int opcion;
   do{
        cout << "===== MENU =====" << endl;
@@ -62,11 +62,5 @@ int main(){
 
   }while(opcion!=0);
 
-
-
-
-
-  cout << "Hello, World!" << endl;
-  cout << "CodeBlocks does not have any GitHub integration, therefore <<<< any IDE with GitHub management integration" << endl;
   return 0;
 };
