@@ -10,9 +10,31 @@
 // Programa principal
 using namespace std;
 int main(){
+
   cout<< "Creado el ABB con"<< N_LIBRERIAS << "nodos"<<endl;
   cout<< "Arbol vacio creado:"<<endl;
-  mostrarLibrerias();
+
+  //Para usar los ID de librerias en los pedidos:
+  Libreria id[N_LIBRERIAS] = {};
+  for(int i = 0; i< N_LIBRERIAS; i++){
+    Libreria lib = genLibreria();
+    id[i] = lib;
+    mostrarLibrerias(lib);
+  }
+
+  cout<< "Creando los siguientes pedidos nuevos:"<<endl;
+  cout<<"-----------------------------------------------------"<<endl;
+  cout<<setw(4)<<"ID Lib"<<"|"<<setw(10)<<"ID_Pedido"<<"|"<<setw(8)<<"Codigo"<<"|"<<setw(12)<<"Materia"<<"|"<<setw(4)<<"U"<<"|"<<setw(10)<<"Fecha"<<"|"<<endl;
+  cout<<"-----------------------------------------------------"<<endl;
+
+  for (int i=0; i<N_PEDIDOS; i++){
+    int aleat = rand()%10;
+    Pedido ped = genPedido(id[aleat].id_libreria);
+    mostrarPedidos(ped);
+  }
+
+  //Menú principal
+
 
 
 

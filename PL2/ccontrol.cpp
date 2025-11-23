@@ -356,14 +356,19 @@ void Mostrar(int d)
 
 
 // =========================  FUNCION PARA ESCRITURA DE LAS LIBRERIAS EN EL MENU =========================
-void mostrarLibrerias(){
+void mostrarLibrerias(Libreria lib){
 
-     for(int i=0;i<N_LIBRERIAS;i++){
-        Libreria lib = genLibreria();
-        cout<<setw(2)<<"ID"<<lib.id_libreria<<setw(2)<<"Localidad: "<<lib.localidad <<setw(12)<<" Num Pedidos: "<<setw(3)<<endl;
-     }
+    cout<<setw(2)<<"ID"<<lib.id_libreria<<setw(2)<<"Localidad: "<<lib.localidad <<setw(12)<<" Num Pedidos: "<<setw(3)<<endl;
 
 }
+// =========================  FUNCION PARA ESCRITURA DE LAS LIBRERIAS EN EL MENU =========================
+void mostrarPedidos(Pedido ped){
+
+
+    cout<<setw(4)<<ped.id_libreria<<setw(10)<<ped.id_pedido<<setw(8)<<ped.cod_libro<<setw(12)<<ped.materia<<setw(4)<<ped.cantidad<<"|"<<setw(10)<<ped.fecha_envio<<endl;
+
+}
+
 // =========================  FUNCION PARA LA CREACION DE LAS LIBRERIAS =========================
 Libreria genLibreria(){
     string id_libreria = to_string(rand()%999);
