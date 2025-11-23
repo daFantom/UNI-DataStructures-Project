@@ -1,5 +1,6 @@
 #include "ccontrol.h"
 #include <string>
+#include <iomanip>
 
 using namespace std;
 
@@ -351,3 +352,50 @@ void Mostrar(int d)
    cout << d << ",";
 }
 // ||||||||||||||||||||| FIN METODOS ARBOLES DE BUSQUEDA |||||||||||||||||||||
+
+
+
+// =========================  FUNCION PARA ESCRITURA DE LAS LIBRERIAS EN EL MENU =========================
+void mostrarLibrerias(){
+
+     for(int i=0;i<N_LIBRERIAS;i++){
+        Libreria lib = genLibreria();
+        cout<<setw(2)<<"ID"<<lib.id_libreria<<setw(2)<<"Localidad: "<<lib.localidad <<setw(12)<<" Num Pedidos: "<<setw(3)<<endl;
+     }
+
+}
+// =========================  FUNCION PARA LA CREACION DE LAS LIBRERIAS =========================
+Libreria genLibreria(){
+    string id_libreria = to_string(rand()%999);
+    string localidad;
+    string librerias [20] = {"Mostoles", "Alcala", "Leganes", "Fuenlabrada", "Getafe", "Alcorcon",
+     "Torrejon", "Parla", "Alcobendas", "Coslada", "Pozuelo", "Rivas", "Valdemoro", "Majadahonda",
+     "Aranjuez", "Arganda", "Boadilla", "Pinto", "Colmenar", "Tres Cantos"};
+    localidad = librerias[rand()%(sizeof(librerias)/sizeof(librerias[0]))];
+
+    Libreria libreria = {id_libreria,localidad};
+    return libreria;
+
+}
+// =========================  FUNCION PARA LA CREACION DE PEDIDOS =========================
+Pedido genPedido (string id_libreria){
+    char abecedario[26] = {'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'};
+    int numaleat1,numaleat2;
+    char letraAleat;
+    letraAleat = abecedario[rand()%(sizeof(abecedario)/sizeof(abecedario[0]))];
+    numaleat1=rand()%999; // Se coge un numero de entre 0 y 998 de forma pseudoaleatoria.
+    numaleat2=rand()%99;
+    string cod_libro = to_string(numaleat1)+letraAleat+to_string(numaleat2);
+
+    string cantidad = to_string(rand()%21);
+
+    string fecha_envio = to_string(rand()%32)+"-"+to_string(rand()%13)+"- 2025";
+
+    string materias[6] ={"Matematicas","Fisica","Tecnologia","Musica","Historia", "Lengua"};
+    string materia = materias[rand()%(sizeof(materias)/sizeof(materias[0]))];
+
+    string id_pedido = "P"+to_string(rand()%99999);
+
+    Pedido ped = {id_libreria,id_pedido,cod_libro,materia,cantidad,fecha_envio};
+    return ped;
+}

@@ -1,0 +1,16 @@
+# depslib dependency file v1.0
+1763839783 source:c:\users\beatriz\documents\videojuegos\uni-datastructures-project\pl2\ccontrol.cpp
+	"ccontrol.h"
+	<string>
+	<iomanip>
+
+1763839764 c:\users\beatriz\documents\videojuegos\uni-datastructures-project\pl2\ccontrol.h
+	<iostream>
+	<string>
+
+1763837234 source:c:\users\beatriz\documents\videojuegos\uni-datastructures-project\pl2\main.cpp
+	<iostream>
+	<ctime>
+	<iomanip>
+	"ccontrol.h"
+

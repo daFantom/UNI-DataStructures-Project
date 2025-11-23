@@ -146,22 +146,27 @@ class ArbolABB
 
 // ------ PEDIDO ------
 struct Pedido{
-    int id_editorial;
+    string id_libreria;
     string id_pedido;
     string cod_libro;
     string materia;
-    int cantidad;
+    string cantidad;
     string fecha_envio;
 };
 
 // ------ LIBRERIA ------
 struct Libreria{
-    int id_libreria;
+    string id_libreria;
     string localidad;
-    Lista *listaPedidos = new Lista();
+    //Lista *listaPedidos = new Lista();  solo de momento
 };
 
 // ||||||||||||||||||||| FIN STRUCTS |||||||||||||||||||||
+
+
+//DECLARACION DE FUNCIONES//
+void mostrarLibrerias();
+Libreria genLibreria();
 
 
 #endif
