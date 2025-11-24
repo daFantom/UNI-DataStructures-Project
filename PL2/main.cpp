@@ -36,12 +36,16 @@ int main(){
   for (int i=0; i<N_PEDIDOS; i++){
     int aleat = rand()%10;
     Pedido ped = genPedido(id[aleat].id_libreria);
-    //insertar cada pedido en una lista generica para su posterior distribucion
     mostrarPedidos(ped);
-    listaux.insertarNodo(ped);
+    listaux.insertarNodo(ped);//insertar cada pedido en una lista generica para su posterior distribucion
+
+    Libreria lib = ab.buscar(ped.id_libreria);
+    lib.listaPedidos->insertarNodo(ped);
   }
   cout<<endl;
-  //listaux.recorrerLista();
+  //prueba
+    Libreria lib = ab.buscar("41");
+    lib.listaPedidos->recorrerLista();
 
 
   //Menu principal

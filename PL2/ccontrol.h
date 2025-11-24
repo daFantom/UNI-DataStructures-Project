@@ -154,6 +154,9 @@ class ArbolABB
         void PreOrden(void (*func)(Libreria), pNodoArbol nodo=NULL, bool r=true);
         void PostOrden(void (*func)(Libreria), pNodoArbol nodo=NULL, bool r=true);
 
+        //Buscar libreria por su id
+        Libreria buscar(string id);
+
     private:
         // Funciones auxiliares
         void Podar(NodoArbol* &);

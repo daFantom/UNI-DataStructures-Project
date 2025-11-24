@@ -435,3 +435,17 @@ NodoArbol* crearNodoLib(Libreria lib){
     return new NodoArbol(lib);
 }
 
+// =========================  BUSCAR EN UN ARBOL LA LIBRERIA POR SU ID =========================
+
+Libreria ArbolABB::buscar(string id){
+
+    actual = raiz;
+
+   // Todavia puede aparecer, ya que quedan nodos por mirar
+   while(!Vacio(actual)) {
+      if(id == actual->libreria.id_libreria) return actual->libreria;
+      else if(id > actual->libreria.id_libreria) actual = actual->derecho; // Seguir
+      else if(id < actual->libreria.id_libreria) actual = actual->izquierdo;
+   }
+
+}
