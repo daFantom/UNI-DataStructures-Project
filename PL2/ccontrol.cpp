@@ -20,34 +20,34 @@ Lista::~Lista()
 }
 
 // ------------- INSERTAR UN NODO EN UNA LISTA -------------
-void Lista::insertarNodo(int v) {
+void Lista::insertarNodo(Pedido ped) {//lo que he cambiado->int v
     pNodoLista aux;
 
     if (listaVacia())
     {
-        cabeza = new NodoLista(v, NULL);
+        cabeza = new NodoLista(ped, NULL);
         final=cabeza;
     }
     else
     {
-        aux= new NodoLista(v,NULL);
+        aux= new NodoLista(ped,NULL);
         final->siguiente=aux;
         final=aux;
     }
 }
 // -------------  BORRAR UN NODO DE UNA LISTA -------------
-void Lista::borrarNodo(int v) {
+void Lista::borrarNodo(Pedido ped) {
     pNodoLista anterior;
 
     actual = cabeza;
 
-    while (actual->valor!=v && (actual->siguiente)!=NULL)
+    while (actual->pedido.id_pedido!=ped.id_pedido && (actual->siguiente)!=NULL)
     {
         anterior=actual;
         actual=actual->siguiente;
     }
 
-    if (actual->valor == v){ //comprobacion de que esta v en la lista
+    if (actual->pedido.id_pedido == ped.id_pedido){ //comprobacion de que esta v en la lista
         if(actual==cabeza)
             cabeza = actual->siguiente;
         else
@@ -96,9 +96,9 @@ bool Lista::esActual()
 }
 
 // ------------- VER EL VALOR DEL PUNTERO "ACTUAL" -------------
-int Lista::valorActual()
+Pedido Lista::valorActual()
 {
-    return actual->valor;
+    return actual->pedido;
 }
 
 // ------------- RECORRER UNA LISTA ENTERA -------------
@@ -109,7 +109,7 @@ void Lista::recorrerLista()
 
     while(aux)
     {
-        cout << aux->valor << "-> ";
+        cout << aux->pedido.id_pedido << "-> ";
         aux = aux->siguiente;
     }
     cout << endl;

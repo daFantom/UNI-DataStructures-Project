@@ -12,20 +12,29 @@ using namespace std;
 #define N_PEDIDOS 30
 
 // |||| FIN CONSTANTES ||||
+// ------ PEDIDO ------
+struct Pedido{
+    string id_libreria;
+    string id_pedido;
+    string cod_libro;
+    string materia;
+    string cantidad;
+    string fecha_envio;
+};
 
 // ================= CLASE NODO PARA LA LISTAS =================
 
 class NodoLista
 {
 private:
-    int valor;
+    Pedido pedido;
     NodoLista *siguiente;
     friend class Lista;
 
 public:
-    NodoLista(int v, NodoLista *sig = NULL)
+    NodoLista(Pedido ped, NodoLista *sig = NULL)
     {
-        valor = v;
+        pedido = ped;
         siguiente = sig;
     }
 };
@@ -33,6 +42,8 @@ public:
 typedef NodoLista *pNodoLista; // Para no tener que poner NodoLista *var
 
 // ||||||||||||||||||||| FIN CLASE NODO PARA LA LISTAS |||||||||||||||||||||
+
+
 
 // ================= CLASE LISTA SIMPLEMENTE ENLAZADA =================
 
@@ -48,14 +59,14 @@ public:
     }
     ~Lista();
 
-    void insertarNodo(int v);
-    void borrarNodo(int v);
+    void insertarNodo(Pedido ped);
+    void borrarNodo(Pedido ped);
     bool listaVacia();
     void esCabeza();
     void esFinal();
     void esSiguiente();
     bool esActual();
-    int valorActual();
+    Pedido valorActual();
     void recorrerLista();
     int contarPedidosLib();
 
@@ -64,16 +75,6 @@ public:
 // ||||||||||||||||||||| FIN CLASE LISTA SIMPLEMENTE ENLAZADA |||||||||||||||||||||
 
 // ================= STRUCTS =================
-
-// ------ PEDIDO ------
-struct Pedido{
-    string id_libreria;
-    string id_pedido;
-    string cod_libro;
-    string materia;
-    string cantidad;
-    string fecha_envio;
-};
 
 // ------ LIBRERIA ------
 struct Libreria{

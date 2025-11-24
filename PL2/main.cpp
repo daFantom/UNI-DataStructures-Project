@@ -38,8 +38,10 @@ int main(){
     Pedido ped = genPedido(id[aleat].id_libreria);
     //insertar cada pedido en una lista generica para su posterior distribucion
     mostrarPedidos(ped);
+    listaux.insertarNodo(ped);
   }
   cout<<endl;
+  //listaux.recorrerLista();
 
 
   //Menu principal
