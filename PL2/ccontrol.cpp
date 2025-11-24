@@ -423,9 +423,11 @@ int Lista::contarPedidosLib(){
    return contador;
 
 }
-// =========================  INSERTAR EN UNA LIBRERIA(CORRESPONDIENTE A OPCION 1) =========================
+// =========================  BUSCAR UN PEDIDO CONCRETO POR SU ID(CORRESPONDIENTE A OPCION 4) =========================
 
-void insertarEnListaLib(Pedido ped){
+Pedido buscarPedidoPorId(ArbolABB ab, string id){
+
+
 
 }
 // =========================  CONVERTIR LIBRERIA EN UN NODO DE UN ARBOL =========================
@@ -447,5 +449,11 @@ Libreria ArbolABB::buscar(string id){
       else if(id > actual->libreria.id_libreria) actual = actual->derecho; // Seguir
       else if(id < actual->libreria.id_libreria) actual = actual->izquierdo;
    }
+
+}
+// =========================  MOSTRAR LOS DATOS DE UNA LIBRERIA DADA(CORRESPONDIENTE A OPCION 3) =========================
+void mostrarDatosLib(ArbolABB ab, string id){
+    Libreria lib = ab.buscar(id);
+    cout<<setw(3)<<"ID_LIB: "<<lib.id_libreria<<setw(4)<<"Localidad: "<<lib.localidad<<setw(5)<<"Numero de pedidos: "<<lib.listaPedidos->contarPedidosLib()<<endl;
 
 }

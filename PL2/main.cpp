@@ -47,6 +47,9 @@ int main(){
     Libreria lib = ab.buscar("41");
     lib.listaPedidos->recorrerLista();
 
+    Libreria li = ab.buscar("340");
+    li.listaPedidos->recorrerLista();
+
 
   //Menu principal
   int opcion;
@@ -64,6 +67,13 @@ int main(){
        cout << "0) Salir" << endl;
        cout << "Opcion: "; cin >> opcion;
        cout << endl;
+
+       switch(opcion){
+           case 3:
+               string id;
+               cout << "ID de la libreria?: "; cin >> id;
+               mostrarDatosLib(ab,id);
+       }
 
 
   }while(opcion!=0);

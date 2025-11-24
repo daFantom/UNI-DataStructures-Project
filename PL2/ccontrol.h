@@ -172,6 +172,7 @@ void mostrarLibrerias(Libreria lib);
 void mostrarPedidos(Pedido ped);
 Libreria genLibreria();
 Pedido genPedido (string id_libreria);
+void mostrarDatosLib(ArbolABB ab, string id);
 
 NodoArbol* crearNodoLib(Libreria lib);
 
