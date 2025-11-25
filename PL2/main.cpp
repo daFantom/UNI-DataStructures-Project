@@ -46,9 +46,10 @@ int main(){
     mostrarPedidos(ped);
     listaux.insertarNodo(ped);//insertar cada pedido en una lista generica para su posterior distribucion
 
-    Libreria lib = ab.buscar(ped.id_libreria);
+    Libreria lib = ab.encontrar(ped.id_libreria);
     lib.listaPedidos->insertarNodo(ped);
   }
+
   cout<<endl;
 
   //Menu principal
@@ -71,14 +72,47 @@ int main(){
             cout << "Inserte una ID para tu libreria [0 - 999]" << endl;
             cin >> id_aux; cout << endl;
             cout << "Inserte una Localidad de las siguientes: "<<endl<<endl;
-            recorrerArray(localidades);
+            for(int i = 0; i<20; i++){
+              if(i <= 18){
+                cout<<localidades[i]<<", ";
+              }
+              else{
+                cout<<localidades[i]<<endl<<endl;
+              }
+            }
+
             cin >> localidad_aux;
+
             lib_aux = {id_aux, localidad_aux, new Lista()};
+
             ab.Insertar(lib_aux);
             mostrarDatosLib(ab, lib_aux.id_libreria);
+
             break;
           case 2:
-            cout << "Funciona OP_2" << endl;
+            cout << "Por favor eliga una libreria de las existentes para eliminar: "<<endl;
+
+            for(int i = 0; i<N_LIBRERIAS; i++){
+              if(i <= N_LIBRERIAS-2){
+                cout<<id_libs[i]<<", ";
+              }
+              else{
+                cout<<id_libs[i]<<endl<<endl;
+              }
+            }
+
+            cin >> id_aux;
+
+            lib_aux = ab.encontrar(id_aux);
+
+            if(lib_aux.id_libreria != " "){
+              ab.Borrar(lib_aux);
+              cout<<"Se ha borrado la libreria cuyo identificador es: "<<id_aux<<endl;
+            }
+            else{
+              cout<<"Error, no se ha encontrado la libreria deseada."<<endl;
+            }
+
             break;
           case 3:
             cout << "ID de la libreria?: ";

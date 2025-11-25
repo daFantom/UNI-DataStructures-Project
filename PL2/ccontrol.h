@@ -156,7 +156,7 @@ class ArbolABB
         void PostOrden(void (*func)(Libreria), pNodoArbol nodo=NULL, bool r=true);
 
         //Buscar libreria por su id
-        Libreria buscar(string id);
+        Libreria encontrar(string id);
 
     private:
         // Funciones auxiliares
@@ -174,7 +174,6 @@ void mostrarPedidos(Pedido ped);
 Libreria genLibreria();
 Pedido genPedido (string id_libreria);
 void mostrarDatosLib(ArbolABB &ab, string id);
-void recorrerArray(string arr[]);
 NodoArbol* crearNodoLib(Libreria lib);
 
 

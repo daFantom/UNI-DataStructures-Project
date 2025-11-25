@@ -443,9 +443,10 @@ NodoArbol* crearNodoLib(Libreria lib){
 
 // =========================  BUSCAR EN UN ARBOL LA LIBRERIA POR SU ID =========================
 
-Libreria ArbolABB::buscar(string id){
+Libreria ArbolABB::encontrar(string id){
 
     actual = raiz;
+    Libreria lib_vacia = {" "," ", NULL}; // En caso de que no se haya encontrado.
 
    // Todavia puede aparecer, ya que quedan nodos por mirar
    while(!Vacio(actual)) {
@@ -453,24 +454,17 @@ Libreria ArbolABB::buscar(string id){
       else if(id > actual->libreria.id_libreria) actual = actual->derecho; // Seguir
       else if(id < actual->libreria.id_libreria) actual = actual->izquierdo;
    }
-    return actual->libreria;
+    return lib_vacia; // Si no se ha encontrado
 }
 // =========================  MOSTRAR LOS DATOS DE UNA LIBRERIA DADA(CORRESPONDIENTE A OPCION 3) =========================
 void mostrarDatosLib(ArbolABB &ab, string id){
-    Libreria lib = ab.buscar(id);
-    cout<<"ID_LIB: "<<lib.id_libreria<<" - Localidad: "<<lib.localidad<<" - Numero de pedidos: "<<lib.listaPedidos->contarPedidosLib()<<endl;
+    Libreria lib = ab.encontrar(id);
+    if(lib.id_libreria != " "){
+        cout<<"ID_LIB: "<<lib.id_libreria<<" - Localidad: "<<lib.localidad<<" - Numero de pedidos: "<<lib.listaPedidos->contarPedidosLib()<<endl<<endl;
+    }
+    else{
+        cout<<"No se ha encontrado la libreria con el codigo: "<<id<<". Por favor, intentelo de nuevo con unos datos validos."<<endl;
+    }
 
 }
-void recorrerArray(string arr[]){
-    int i;
-    for(i = 0; i < 20; i++){
-        if (i!=19){
-            cout<<arr[i]<<", ";
-        }
-        else{
-            cout<<arr[i];
-        }
-    }
-    cout<<endl;
-    return;
-}
+
