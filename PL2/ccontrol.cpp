@@ -169,7 +169,10 @@ void ArbolABB::Insertar(const Libreria lib)//const int dat-> lo que he cambiado
    }
 
    // Si se ha encontrado el elemento, regresar sin insertar
-   if(!Vacio(actual)) return;
+   if(!Vacio(actual)){
+    cout << "Esta libreria ya se encuentra, por favor utilice otros datos."<<endl;
+    return;
+   }
 
    // Si padre es NULL, entonces el arbol estaba vacio, el nuevo nodo sera el nodo raiz
    if(Vacio(padre)) raiz = new NodoArbol(lib);
@@ -359,7 +362,7 @@ void Mostrar(int d)
 // =========================  FUNCION PARA ESCRITURA DE LAS LIBRERIAS EN EL MENU =========================
 void mostrarLibrerias(Libreria lib){
 
-    cout<<setw(2)<<"ID_LIB: "<<lib.id_libreria<<setw(2)<<" - Localidad: "<<lib.localidad <<setw(12)<<" - Num Pedidos: "<<lib.listaPedidos->contarPedidosLib()<<endl;
+    cout<<"ID_LIB: "<<lib.id_libreria<<" - Localidad: "<<lib.localidad <<" - Num Pedidos: "<<lib.listaPedidos->contarPedidosLib()<<endl;
 
 }
 // =========================  FUNCION PARA ESCRITURA DE LAS LIBRERIAS EN EL MENU =========================
@@ -372,12 +375,12 @@ void mostrarPedidos(Pedido ped){
 
 // =========================  FUNCION PARA LA CREACION DE LAS LIBRERIAS =========================
 Libreria genLibreria(){
-    string id_libreria = to_string(rand()%999);
-    string localidad;
-    string librerias [20] = {"Mostoles", "Alcala", "Leganes", "Fuenlabrada", "Getafe", "Alcorcon",
+    string localidades [20] = {"Mostoles", "Alcala", "Leganes", "Fuenlabrada", "Getafe", "Alcorcon",
      "Torrejon", "Parla", "Alcobendas", "Coslada", "Pozuelo", "Rivas", "Valdemoro", "Majadahonda",
      "Aranjuez", "Arganda", "Boadilla", "Pinto", "Colmenar", "Tres Cantos"};
-    localidad = librerias[rand()%(sizeof(librerias)/sizeof(librerias[0]))];
+    string id_libreria = to_string(rand()%999);
+    string localidad;
+    localidad = localidades[rand()%(sizeof(localidades)/sizeof(localidades[0]))];
 
 
 
@@ -415,7 +418,7 @@ int Lista::contarPedidosLib(){
 
    int contador = 0;
 
-   while(aux!= NULL){
+   while(aux){
        contador++;
        aux = aux->siguiente;
 
@@ -425,11 +428,12 @@ int Lista::contarPedidosLib(){
 }
 // =========================  BUSCAR UN PEDIDO CONCRETO POR SU ID(CORRESPONDIENTE A OPCION 4) =========================
 
-Pedido buscarPedidoPorId(ArbolABB ab, string id){
+//Pedido buscarPedidoPorId(ArbolABB ab, string id){
+//
+//
+//
+//}
 
-
-
-}
 // =========================  CONVERTIR LIBRERIA EN UN NODO DE UN ARBOL =========================
 
 //en estos momentos no se esta utilizando esta funcion
@@ -449,11 +453,24 @@ Libreria ArbolABB::buscar(string id){
       else if(id > actual->libreria.id_libreria) actual = actual->derecho; // Seguir
       else if(id < actual->libreria.id_libreria) actual = actual->izquierdo;
    }
-
+    return actual->libreria;
 }
 // =========================  MOSTRAR LOS DATOS DE UNA LIBRERIA DADA(CORRESPONDIENTE A OPCION 3) =========================
-void mostrarDatosLib(ArbolABB ab, string id){
+void mostrarDatosLib(ArbolABB &ab, string id){
     Libreria lib = ab.buscar(id);
-    cout<<setw(3)<<"ID_LIB: "<<lib.id_libreria<<setw(4)<<"Localidad: "<<lib.localidad<<setw(5)<<"Numero de pedidos: "<<lib.listaPedidos->contarPedidosLib()<<endl;
+    cout<<"ID_LIB: "<<lib.id_libreria<<" - Localidad: "<<lib.localidad<<" - Numero de pedidos: "<<lib.listaPedidos->contarPedidosLib()<<endl;
 
+}
+void recorrerArray(string arr[]){
+    int i;
+    for(i = 0; i < 20; i++){
+        if (i!=19){
+            cout<<arr[i]<<", ";
+        }
+        else{
+            cout<<arr[i];
+        }
+    }
+    cout<<endl;
+    return;
 }

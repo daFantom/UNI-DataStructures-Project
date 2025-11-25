@@ -11,6 +11,7 @@ using namespace std;
 #define N_LIBRERIAS 10
 #define N_PEDIDOS 30
 
+
 // |||| FIN CONSTANTES ||||
 // ------ PEDIDO ------
 struct Pedido{
@@ -172,8 +173,8 @@ void mostrarLibrerias(Libreria lib);
 void mostrarPedidos(Pedido ped);
 Libreria genLibreria();
 Pedido genPedido (string id_libreria);
-void mostrarDatosLib(ArbolABB ab, string id);
-
+void mostrarDatosLib(ArbolABB &ab, string id);
+void recorrerArray(string arr[]);
 NodoArbol* crearNodoLib(Libreria lib);
 
 

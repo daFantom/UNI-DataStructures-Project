@@ -9,19 +9,26 @@
 
 // Programa principal
 using namespace std;
+
 int main(){
+  Libreria lib_aux;
   ArbolABB ab;//Declaracion del arbol
   Lista listaux;//Declaracion de lista generica
+  string id_busqueda, id_aux, localidad_aux;
+  string localidades [20] = {"Mostoles", "Alcala", "Leganes", "Fuenlabrada", "Getafe", "Alcorcon",
+     "Torrejon", "Parla", "Alcobendas", "Coslada", "Pozuelo", "Rivas", "Valdemoro", "Majadahonda",
+     "Aranjuez", "Arganda", "Boadilla", "Pinto", "Colmenar", "Tres Cantos"};
 
+  srand(time(NULL));
 
   cout<< "Creado el ABB con "<< N_LIBRERIAS << " nodos"<<endl;
   cout<< "Arbol vacio creado: "<<endl;
 
   //Para usar los ID de librerias en los pedidos y para convertir librerias en nodos de un arbol:
-  Libreria id[N_LIBRERIAS] = {};
+  string id_libs[N_LIBRERIAS] = {};
   for(int i = 0; i< N_LIBRERIAS; i++){
     Libreria lib = genLibreria();
-    id[i] = lib;
+    id_libs[i] = lib.id_libreria;
     ab.Insertar(lib);
     mostrarLibrerias(lib);
   }
@@ -35,7 +42,7 @@ int main(){
 
   for (int i=0; i<N_PEDIDOS; i++){
     int aleat = rand()%10;
-    Pedido ped = genPedido(id[aleat].id_libreria);
+    Pedido ped = genPedido(id_libs[aleat]);
     mostrarPedidos(ped);
     listaux.insertarNodo(ped);//insertar cada pedido en una lista generica para su posterior distribucion
 
@@ -43,13 +50,6 @@ int main(){
     lib.listaPedidos->insertarNodo(ped);
   }
   cout<<endl;
-  //prueba
-    Libreria lib = ab.buscar("41");
-    lib.listaPedidos->recorrerLista();
-
-    Libreria li = ab.buscar("340");
-    li.listaPedidos->recorrerLista();
-
 
   //Menu principal
   int opcion;
@@ -60,19 +60,47 @@ int main(){
        cout << "3) Mostrar los datos de una libreria dada" << endl;
        cout << "4) Buscar un pedido concreto por su ID" << endl;
        cout << "5) Extraer un pedido concreto" << endl;
-       cout << "5) Extraer un pedido concreto" << endl;
        cout << "6) Llevar un pedido concreto de una libreria a otra" << endl;
        cout << "7) Mostrar una estadistica de unas librerias" << endl;
        cout << "8) Continuar con la distribucion de pedidos" << endl;
        cout << "0) Salir" << endl;
        cout << "Opcion: "; cin >> opcion;
        cout << endl;
-
        switch(opcion){
-           case 3:
-               string id;
-               cout << "ID de la libreria?: "; cin >> id;
-               mostrarDatosLib(ab,id);
+          case 1:
+            cout << "Inserte una ID para tu libreria [0 - 999]" << endl;
+            cin >> id_aux; cout << endl;
+            cout << "Inserte una Localidad de las siguientes: "<<endl<<endl;
+            recorrerArray(localidades);
+            cin >> localidad_aux;
+            lib_aux = {id_aux, localidad_aux, new Lista()};
+            ab.Insertar(lib_aux);
+            mostrarDatosLib(ab, lib_aux.id_libreria);
+            break;
+          case 2:
+            cout << "Funciona OP_2" << endl;
+            break;
+          case 3:
+            cout << "ID de la libreria?: ";
+            cin >> id_busqueda;
+            cout << endl;
+            mostrarDatosLib(ab, id_busqueda);
+            break;
+          case 4:
+            cout << "Funciona OP_4" << endl;
+            break;
+          case 5:
+            cout << "Funciona OP_5" << endl;
+            break;
+          case 6:
+            cout << "Funciona OP_6" << endl;
+            break;
+          case 7:
+            cout << "Funciona OP_7" << endl;
+            break;
+          case 8:
+            cout << "Funciona OP_8" << endl;
+            break;
        }
 
 
