@@ -11,27 +11,35 @@
 using namespace std;
 
 int main(){
+
+  srand(time(NULL)); // Semilla para la pseudoaleatoriedad
+
   Libreria lib_aux;
   ArbolABB ab;//Declaracion del arbol
-  Lista listaux;//Declaracion de lista generica
+
+  ListaPedidos listaux; //Declaracion de lista generica
+
+  ListaIdentificadores id_libs; // Declaracion de una lista de Identificadores dinamica.
+
   string id_busqueda, id_aux, localidad_aux;
+
   string localidades [20] = {"Mostoles", "Alcala", "Leganes", "Fuenlabrada", "Getafe", "Alcorcon",
      "Torrejon", "Parla", "Alcobendas", "Coslada", "Pozuelo", "Rivas", "Valdemoro", "Majadahonda",
      "Aranjuez", "Arganda", "Boadilla", "Pinto", "Colmenar", "Tres Cantos"};
 
-  srand(time(NULL));
 
   cout<< "Creado el ABB con "<< N_LIBRERIAS << " nodos"<<endl;
   cout<< "Arbol vacio creado: "<<endl;
 
   //Para usar los ID de librerias en los pedidos y para convertir librerias en nodos de un arbol:
-  string id_libs[N_LIBRERIAS] = {};
+
   for(int i = 0; i< N_LIBRERIAS; i++){
     Libreria lib = genLibreria();
-    id_libs[i] = lib.id_libreria;
+    id_libs.insertarNodo(lib.id_libreria);
     ab.Insertar(lib);
     mostrarLibrerias(lib);
   }
+  id_libs.recorrerListaID();
   cout<<endl;
 
 
@@ -42,10 +50,9 @@ int main(){
 
   for (int i=0; i<N_PEDIDOS; i++){
     int aleat = rand()%10;
-    Pedido ped = genPedido(id_libs[aleat]);
+    Pedido ped = genPedido(id_libs.conseguirNodoN(aleat));
     mostrarPedidos(ped);
-    listaux.insertarNodo(ped);//insertar cada pedido en una lista generica para su posterior distribucion
-
+    // listaux.insertarNodo(ped);//insertar cada pedido en una lista generica para su posterior distribucion
     Libreria lib = ab.encontrar(ped.id_libreria);
     lib.listaPedidos->insertarNodo(ped);
   }
@@ -67,47 +74,62 @@ int main(){
        cout << "0) Salir" << endl;
        cout << "Opcion: "; cin >> opcion;
        cout << endl;
+
+
        switch(opcion){
           case 1:
-            cout << "Inserte una ID para tu libreria [0 - 999]" << endl;
+            cout << "Inserte una ID para tu libreria [0 - 999]: ";
+
             cin >> id_aux; cout << endl;
-            cout << "Inserte una Localidad de las siguientes: "<<endl<<endl;
+
+            cout << "Inserte una Localidad de las siguientes: "<<endl;
+
             for(int i = 0; i<20; i++){
+
               if(i <= 18){
                 cout<<localidades[i]<<", ";
               }
               else{
                 cout<<localidades[i]<<endl<<endl;
               }
+
             }
 
             cin >> localidad_aux;
 
-            lib_aux = {id_aux, localidad_aux, new Lista()};
+            cout<< "Creando libreria..."<<endl;
+            lib_aux = {id_aux, localidad_aux, new ListaPedidos()};
 
+            cout<<"Insertando..."<<endl;
             ab.Insertar(lib_aux);
-            mostrarDatosLib(ab, lib_aux.id_libreria);
+
+            if(!id_libs.esta(lib_aux.id_libreria)){
+
+              id_libs.insertarNodo(lib_aux.id_libreria);
+              
+              mostrarDatosLib(ab, lib_aux.id_libreria);
+              id_libs.recorrerListaID(); // Prueba
+            }
 
             break;
           case 2:
             cout << "Por favor eliga una libreria de las existentes para eliminar: "<<endl;
 
-            for(int i = 0; i<N_LIBRERIAS; i++){
-              if(i <= N_LIBRERIAS-2){
-                cout<<id_libs[i]<<", ";
-              }
-              else{
-                cout<<id_libs[i]<<endl<<endl;
-              }
-            }
+            id_libs.recorrerListaID();
 
             cin >> id_aux;
 
+            cout<<"Buscando..."<<endl;
             lib_aux = ab.encontrar(id_aux);
 
             if(lib_aux.id_libreria != " "){
+
               ab.Borrar(lib_aux);
+
+              id_libs.borrarNodo(lib_aux.id_libreria);
+
               cout<<"Se ha borrado la libreria cuyo identificador es: "<<id_aux<<endl;
+              
             }
             else{
               cout<<"Error, no se ha encontrado la libreria deseada."<<endl;
@@ -115,9 +137,12 @@ int main(){
 
             break;
           case 3:
-            cout << "ID de la libreria?: ";
+            cout << "Por favor, seleccione una de las siguientes librerias disponibles: "<<endl;
+
+            id_libs.recorrerListaID();
             cin >> id_busqueda;
             cout << endl;
+
             mostrarDatosLib(ab, id_busqueda);
             break;
           case 4:

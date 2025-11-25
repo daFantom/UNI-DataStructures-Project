@@ -4,12 +4,12 @@
 
 using namespace std;
 
-// ================= METODOS LISTAS SIMPLEMENTE ENLAZADAS =================
+// ================= METODOS LISTAS SIMPLEMENTE ENLAZADAS DE PEDIDOS =================
 
 // ------------- DESTRUCTOR -------------
-Lista::~Lista()
+ListaPedidos::~ListaPedidos()
 {
-    pNodoLista aux;
+    pNodoListaPedidos aux;
     while(cabeza)
     {
         aux = cabeza;
@@ -20,24 +20,24 @@ Lista::~Lista()
 }
 
 // ------------- INSERTAR UN NODO EN UNA LISTA -------------
-void Lista::insertarNodo(Pedido ped) {//lo que he cambiado->int v
-    pNodoLista aux;
+void ListaPedidos::insertarNodo(Pedido ped) {//lo que he cambiado->int v
+    pNodoListaPedidos aux;
 
     if (listaVacia())
     {
-        cabeza = new NodoLista(ped, NULL);
+        cabeza = new NodoListaPedidos(ped, NULL);
         final=cabeza;
     }
     else
     {
-        aux= new NodoLista(ped,NULL);
+        aux= new NodoListaPedidos(ped,NULL);
         final->siguiente=aux;
         final=aux;
     }
 }
 // -------------  BORRAR UN NODO DE UNA LISTA -------------
-void Lista::borrarNodo(Pedido ped) {
-    pNodoLista anterior;
+void ListaPedidos::borrarNodo(Pedido ped) {
+    pNodoListaPedidos anterior;
 
     actual = cabeza;
 
@@ -64,18 +64,18 @@ void Lista::borrarNodo(Pedido ped) {
 }
 
 // ------------- COMPROBAR SI UNA LISTA ESTA VACIA -------------
-bool Lista::listaVacia(){
+bool ListaPedidos::listaVacia(){
     return cabeza == NULL;
 }
 
 // ------------- PONER EL PUNTERO "ACTUAL" A LA CABEZA DE LA LISTA -------------
-void Lista::esCabeza()
+void ListaPedidos::esCabeza()
 {
     actual = cabeza;
 }
 
 // ------------- PONER EL PUNTERO "ACTUAL" AL FINAL DE LA LISTA -------------
-void Lista::esFinal()
+void ListaPedidos::esFinal()
 {
     esCabeza();
     if(!listaVacia())
@@ -84,27 +84,27 @@ void Lista::esFinal()
 }
 
 // ------------- PONER EL PUNTERO "ACTUAL" A LA SIGUIENTE POSICION DE LA LISTA -------------
-void Lista::esSiguiente()
+void ListaPedidos::esSiguiente()
 {
     if(actual) actual = actual->siguiente;
 }
 
 // ------------- COMPRUEBA SI EL PUNTERO "ACTUAL" ES NULO O NO??? -------------
-bool Lista::esActual()
+bool ListaPedidos::esActual()
 {
     return actual != NULL;
 }
 
 // ------------- VER EL VALOR DEL PUNTERO "ACTUAL" -------------
-Pedido Lista::valorActual()
+Pedido ListaPedidos::valorActual()
 {
     return actual->pedido;
 }
 
 // ------------- RECORRER UNA LISTA ENTERA -------------
-void Lista::recorrerLista()
+void ListaPedidos::recorrerLista()
 {
-    pNodoLista aux;
+    pNodoListaPedidos aux;
     aux = cabeza;
 
     while(aux)
@@ -115,7 +115,177 @@ void Lista::recorrerLista()
     cout << endl;
 }
 
-// ||||||||||||||||||||| FIN METODOS LISTAS SIMPLEMENTE ENLAZADAS |||||||||||||||||||||
+int ListaPedidos::contarPedidosLib(){
+   pNodoListaPedidos aux;
+   aux = cabeza;
+
+   int contador = 0;
+
+   while(aux){
+       contador++;
+       aux = aux->siguiente;
+
+   }
+
+   return contador;
+}
+
+// ||||||||||||||||||||| FIN METODOS LISTAS SIMPLEMENTE ENLAZADAS DE PEDIDOS |||||||||||||||||||||
+
+
+// ================= METODOS LISTAS SIMPLEMENTE ENLAZADAS DE IDENTIFICADORES =================
+
+ListaIdentificadores::~ListaIdentificadores()
+{
+    pNodoListaID aux;
+    while(cabeza)
+    {
+        aux = cabeza;
+        cabeza = cabeza->siguiente;
+        delete aux;
+    }
+    actual = NULL;
+}
+
+// ------------- INSERTAR UN NODO EN UNA LISTA -------------
+void ListaIdentificadores::insertarNodo(string id_lib) {//lo que he cambiado->int v
+
+    pNodoListaID aux;
+
+    if (listaVacia())
+    {
+        cabeza = new NodoListaID(id_lib, NULL);
+        final=cabeza;
+    }
+    else
+    {
+        aux = new NodoListaID(id_lib,NULL);
+        final->siguiente=aux;
+        final=aux;
+    }
+}
+// -------------  BORRAR UN NODO DE UNA LISTA -------------
+void ListaIdentificadores::borrarNodo(string id_lib) {
+    pNodoListaID anterior;
+
+    actual = cabeza;
+
+    while (actual->identificador_lib!=id_lib && (actual->siguiente)!=NULL)
+    {
+        anterior=actual;
+        actual=actual->siguiente;
+    }
+
+    if (actual->identificador_lib == id_lib){ //comprobacion de que esta v en la lista
+        if(actual==cabeza)
+            cabeza = actual->siguiente;
+        else
+        {
+            anterior->siguiente = actual->siguiente;
+            if (actual==final)
+            {
+                final=anterior;
+            }
+        }
+        actual->siguiente=NULL;
+        delete actual;
+    }
+}
+
+// ------------- COMPROBAR SI UNA LISTA ESTA VACIA -------------
+bool ListaIdentificadores::listaVacia(){
+    return cabeza == NULL;
+}
+
+// ------------- PONER EL PUNTERO "ACTUAL" A LA CABEZA DE LA LISTA -------------
+void ListaIdentificadores::esCabeza()
+{
+    actual = cabeza;
+}
+
+// ------------- PONER EL PUNTERO "ACTUAL" AL FINAL DE LA LISTA -------------
+void ListaIdentificadores::esFinal()
+{
+    esCabeza();
+    if(!listaVacia())
+        while(actual->siguiente)
+            esSiguiente();
+}
+
+// ------------- PONER EL PUNTERO "ACTUAL" A LA SIGUIENTE POSICION DE LA LISTA -------------
+void ListaIdentificadores::esSiguiente()
+{
+    if(actual) actual = actual->siguiente;
+}
+
+// ------------- COMPRUEBA SI EL PUNTERO "ACTUAL" ES NULO O NO??? -------------
+bool ListaIdentificadores::esActual()
+{
+    return actual != NULL;
+}
+
+// ------------- VER EL VALOR DEL PUNTERO "ACTUAL" -------------
+string ListaIdentificadores::valorActual()
+{
+    return actual->identificador_lib;
+}
+
+// ------------- RECORRER UNA LISTA ENTERA -------------
+void ListaIdentificadores::recorrerListaID()
+{
+    pNodoListaID aux;
+    aux = cabeza;
+
+    while(aux)
+    {
+        cout << aux->identificador_lib << "-> ";
+        aux = aux->siguiente;
+    }
+    cout << endl;
+}
+
+int ListaIdentificadores::contarElementos(){
+   pNodoListaID aux;
+   aux = cabeza;
+
+   int contador = 0;
+
+   while(aux){
+       contador++;
+       aux = aux->siguiente;
+
+   }
+
+   return contador;
+}
+
+string ListaIdentificadores::conseguirNodoN(int n){
+
+    pNodoListaID aux;
+
+    aux = cabeza;
+
+    int i;
+
+    for(i=0; i<n; i++){
+        aux = aux->siguiente;
+    }
+
+    return aux->identificador_lib;
+}
+
+bool ListaIdentificadores::esta(string id_lib){
+    pNodoListaID aux;
+    aux = cabeza;
+
+    while(aux!=NULL && aux->identificador_lib!=id_lib){
+        aux = aux->siguiente;
+    }
+    return aux!=NULL;
+}
+// ||||||||||||||||||||| FIN METODOS LISTAS SIMPLEMENTE ENLAZADAS DE IDENTIFICADORES |||||||||||||||||||||
+
+
 
 // ================= METODOS ARBOLES DE BUSQUEDA =================
 
@@ -384,7 +554,7 @@ Libreria genLibreria(){
 
 
 
-    Libreria libreria = {id_libreria,localidad, new Lista()};
+    Libreria libreria = {id_libreria,localidad, new ListaPedidos()};
     return libreria;
 
 }
@@ -412,20 +582,7 @@ Pedido genPedido (string id_libreria){
 }
 // =========================  FUNCION PARA CONTAR PEDIDOS EN UNA LISTA DE UNA LIBRERIA =========================
 
-int Lista::contarPedidosLib(){
-   pNodoLista aux;
-   aux = cabeza;
 
-   int contador = 0;
-
-   while(aux){
-       contador++;
-       aux = aux->siguiente;
-
-   }
-   return contador;
-
-}
 // =========================  BUSCAR UN PEDIDO CONCRETO POR SU ID(CORRESPONDIENTE A OPCION 4) =========================
 
 //Pedido buscarPedidoPorId(ArbolABB ab, string id){

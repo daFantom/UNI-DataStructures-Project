@@ -11,9 +11,11 @@ using namespace std;
 #define N_LIBRERIAS 10
 #define N_PEDIDOS 30
 
-
 // |||| FIN CONSTANTES ||||
-// ------ PEDIDO ------
+
+
+
+// ------ STRUCT PEDIDO ------
 struct Pedido{
     string id_libreria;
     string id_pedido;
@@ -23,42 +25,44 @@ struct Pedido{
     string fecha_envio;
 };
 
-// ================= CLASE NODO PARA LA LISTAS =================
 
-class NodoLista
+
+// ================= CLASE NODO PARA LA LISTAS DE PEDIDOS =================
+
+class NodoListaPedidos
 {
 private:
     Pedido pedido;
-    NodoLista *siguiente;
-    friend class Lista;
+    NodoListaPedidos *siguiente;
+    friend class ListaPedidos;
 
 public:
-    NodoLista(Pedido ped, NodoLista *sig = NULL)
+    NodoListaPedidos(Pedido ped, NodoListaPedidos *sig = NULL)
     {
         pedido = ped;
         siguiente = sig;
     }
 };
 
-typedef NodoLista *pNodoLista; // Para no tener que poner NodoLista *var
+typedef NodoListaPedidos *pNodoListaPedidos; // Para no tener que poner NodoLista *var
 
-// ||||||||||||||||||||| FIN CLASE NODO PARA LA LISTAS |||||||||||||||||||||
+// ||||||||||||||||||||| FIN CLASE NODO PARA LA LISTAS DE PEDIDOS |||||||||||||||||||||
 
 
 
-// ================= CLASE LISTA SIMPLEMENTE ENLAZADA =================
+// ================= CLASE LISTA SIMPLEMENTE ENLAZADA PARA PEDIDOS =================
 
-class Lista
+class ListaPedidos
 {
 private:
-    pNodoLista cabeza, actual, final;
+    pNodoListaPedidos cabeza, actual, final;
 
 public:
-    Lista()
+    ListaPedidos()
     {
         cabeza = actual = final= NULL;
     }
-    ~Lista();
+    ~ListaPedidos();
 
     void insertarNodo(Pedido ped);
     void borrarNodo(Pedido ped);
@@ -73,18 +77,66 @@ public:
 
 };
 
-// ||||||||||||||||||||| FIN CLASE LISTA SIMPLEMENTE ENLAZADA |||||||||||||||||||||
+// ||||||||||||||||||||| FIN CLASE LISTA SIMPLEMENTE ENLAZADA PEDIDOS ||||||||||||||||||||
 
-// ================= STRUCTS =================
 
 // ------ LIBRERIA ------
 struct Libreria{
     string id_libreria;
     string localidad;
-    Lista *listaPedidos;
+    ListaPedidos *listaPedidos;
 };
 
-// ||||||||||||||||||||| FIN STRUCTS |||||||||||||||||||||
+// ================= CLASE NODO PARA LA LISTAS DE IDENTIFICADORES =================
+
+class NodoListaID
+{
+private:
+    string identificador_lib;
+    NodoListaID *siguiente;
+    friend class ListaIdentificadores;
+
+public:
+    NodoListaID(string id_lib, NodoListaID *sig = NULL)
+    {
+        identificador_lib = id_lib;
+        siguiente = sig;
+    }
+};
+
+typedef NodoListaID *pNodoListaID; // Para no tener que poner NodoLista *var
+
+// ||||||||||||||||||||| FIN CLASE NODO PARA LA LISTAS DE IDENTIFICADORES |||||||||||||||||||||
+
+// ================= CLASE LISTA SIMPLEMENTE ENLAZADA PARA LOS IDENTIFICADORES DE LIBRERIAS =================
+class ListaIdentificadores
+{
+private:
+    pNodoListaID cabeza, actual, final;
+
+public:
+    ListaIdentificadores()
+    {
+        cabeza = actual = final= NULL;
+    }
+    ~ListaIdentificadores();
+    void insertarNodo(string id_lib);
+    void borrarNodo(string id_lib);
+    bool listaVacia();
+    void esCabeza();
+    void esFinal();
+    void esSiguiente();
+    bool esActual();
+    string valorActual();
+    void recorrerListaID();
+    int contarElementos();
+    string conseguirNodoN(int n);
+    bool esta(string id_lib);
+
+};
+
+// ||||||||||||||||||||| FIN CLASE LISTA SIMPLEMENTE ENLAZADA IDENTIFICADORES LIBRERIAS ||||||||||||||||||||
+
 
 // ================= CLASE NODO PARA LOS ARBOLES DE BUSQUEDA BINARIA =================
 
