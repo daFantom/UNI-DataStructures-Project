@@ -221,6 +221,7 @@ class ArbolABB
 
 
 //DECLARACION DE FUNCIONES//
+void init_ccontrol(ListaIdentificadores &id_libs, ArbolABB &ab, int flags);
 void mostrarLibrerias(Libreria lib);
 void mostrarPedidos(Pedido ped);
 Libreria genLibreria();

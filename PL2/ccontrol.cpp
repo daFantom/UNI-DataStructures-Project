@@ -529,21 +529,58 @@ void Mostrar(int d)
 
 
 
-// =========================  FUNCION PARA ESCRITURA DE LAS LIBRERIAS EN EL MENU =========================
+
+// ========================= FUNCIONES AUXILIARES =========================
+
+// ---------------------------  INICIALIZACION DEL PROGRAMA SI FLAG==0, EN OTRO CASO, CREA 30 PEDIDOS NUEVOS ---------------------------
+void init_ccontrol(ListaIdentificadores &id_libs, ArbolABB &ab, int flag){
+
+    int i;
+
+    if(!flag){
+        for(i=0; i < N_LIBRERIAS; i++){
+            Libreria lib = genLibreria();
+            id_libs.insertarNodo(lib.id_libreria);
+            ab.Insertar(lib);
+            mostrarLibrerias(lib);
+        }
+    }
+
+    cout<<endl; // Salto de linea ULTRA NECESARIO para que quede mas separado
+
+    cout<< "Creando los siguientes pedidos nuevos:"<<endl;
+    cout<<"----------------------------------------------------------"<<endl;
+    cout<<setw(7)<<"ID Lib"<<"|"<<setw(10)<<"ID_Pedido"<<"|"<<setw(8)<<"Codigo"<<"|"<<setw(12)<<"Materia"<<"|"<<setw(4)<<"U"<<"|"<<setw(11)<<"Fecha"<<"|"<<endl;
+    cout<<"----------------------------------------------------------"<<endl;
+
+    for (i=0; i < N_PEDIDOS; i++){
+        int aleat = rand()%(id_libs.contarElementos());
+        Pedido ped = genPedido(id_libs.conseguirNodoN(aleat));
+        Libreria lib = ab.encontrar(ped.id_libreria);
+        mostrarPedidos(ped);
+        lib.listaPedidos->insertarNodo(ped);
+    }
+
+    cout<<endl; // Lo mismo que el otro salto de linea (MUY IMPORTANTE, DEBE ESTAR, SI NO, ME DA TOC QUE NO SE SEPARE BIEN) 
+
+}
+
+// ---------------------------  FUNCION PARA ESCRITURA DE LAS LIBRERIAS EN EL MENU ---------------------------
+
 void mostrarLibrerias(Libreria lib){
 
     cout<<"ID_LIB: "<<lib.id_libreria<<" - Localidad: "<<lib.localidad <<" - Num Pedidos: "<<lib.listaPedidos->contarPedidosLib()<<endl;
 
 }
-// =========================  FUNCION PARA ESCRITURA DE LAS LIBRERIAS EN EL MENU =========================
-void mostrarPedidos(Pedido ped){
+// ---------------------------  FUNCION PARA ESCRITURA DE LAS LIBRERIAS EN EL MENU ---------------------------
 
+void mostrarPedidos(Pedido ped){
 
     cout<<setw(7)<<ped.id_libreria<<'|'<<setw(10)<<ped.id_pedido<<'|'<<setw(8)<<ped.cod_libro<<'|'<<setw(12)<<ped.materia<<'|'<<setw(4)<<ped.cantidad<<"|"<<setw(11)<<ped.fecha_envio<<endl;
 
 }
 
-// =========================  FUNCION PARA LA CREACION DE LAS LIBRERIAS =========================
+// ---------------------------  FUNCION PARA LA CREACION DE LAS LIBRERIAS ---------------------------
 Libreria genLibreria(){
     string localidades [20] = {"Mostoles", "Alcala", "Leganes", "Fuenlabrada", "Getafe", "Alcorcon",
      "Torrejon", "Parla", "Alcobendas", "Coslada", "Pozuelo", "Rivas", "Valdemoro", "Majadahonda",
@@ -558,7 +595,7 @@ Libreria genLibreria(){
     return libreria;
 
 }
-// =========================  FUNCION PARA LA CREACION DE PEDIDOS =========================
+// ---------------------------  FUNCION PARA LA CREACION DE PEDIDOS ---------------------------
 Pedido genPedido (string id_libreria){
     char abecedario[26] = {'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'};
     int numaleat1,numaleat2;
@@ -580,10 +617,9 @@ Pedido genPedido (string id_libreria){
     Pedido ped = {id_libreria,id_pedido,cod_libro,materia,cantidad,fecha_envio};
     return ped;
 }
-// =========================  FUNCION PARA CONTAR PEDIDOS EN UNA LISTA DE UNA LIBRERIA =========================
 
 
-// =========================  BUSCAR UN PEDIDO CONCRETO POR SU ID(CORRESPONDIENTE A OPCION 4) =========================
+// ---------------------------  BUSCAR UN PEDIDO CONCRETO POR SU ID(CORRESPONDIENTE A OPCION 4) ---------------------------
 
 //Pedido buscarPedidoPorId(ArbolABB ab, string id){
 //
@@ -591,14 +627,14 @@ Pedido genPedido (string id_libreria){
 //
 //}
 
-// =========================  CONVERTIR LIBRERIA EN UN NODO DE UN ARBOL =========================
+// ---------------------------  CONVERTIR LIBRERIA EN UN NODO DE UN ARBOL ---------------------------
 
 //en estos momentos no se esta utilizando esta funcion
 NodoArbol* crearNodoLib(Libreria lib){
     return new NodoArbol(lib);
 }
 
-// =========================  BUSCAR EN UN ARBOL LA LIBRERIA POR SU ID =========================
+// ---------------------------  BUSCAR EN UN ARBOL LA LIBRERIA POR SU ID ---------------------------
 
 Libreria ArbolABB::encontrar(string id){
 
@@ -613,7 +649,8 @@ Libreria ArbolABB::encontrar(string id){
    }
     return lib_vacia; // Si no se ha encontrado
 }
-// =========================  MOSTRAR LOS DATOS DE UNA LIBRERIA DADA(CORRESPONDIENTE A OPCION 3) =========================
+// ---------------------------  MOSTRAR LOS DATOS DE UNA LIBRERIA DADA(CORRESPONDIENTE A OPCION 3) ---------------------------
+
 void mostrarDatosLib(ArbolABB &ab, string id){
     Libreria lib = ab.encontrar(id);
     if(lib.id_libreria != " "){
@@ -625,3 +662,36 @@ void mostrarDatosLib(ArbolABB &ab, string id){
 
 }
 
+// ---------------------------  INICIALIZACION DEL PROGRAMA SI FLAG==0, EN OTRO CASO, CREA 30 PEDIDOS NUEVOS ---------------------------
+
+void init_ccontrol(ListaIdentificadores &id_libs, ArbolABB &ab, int flag){
+
+    int i;
+
+    if(!flag){
+        for(i=0; i < N_LIBRERIAS; i++){
+            Libreria lib = genLibreria();
+            id_libs.insertarNodo(lib.id_libreria);
+            ab.Insertar(lib);
+            mostrarLibrerias(lib);
+        }
+    }
+
+    cout<<endl; // Salto de linea ULTRA NECESARIO para que quede mas separado
+
+    cout<< "Creando los siguientes pedidos nuevos:"<<endl;
+    cout<<"----------------------------------------------------------"<<endl;
+    cout<<setw(7)<<"ID Lib"<<"|"<<setw(10)<<"ID_Pedido"<<"|"<<setw(8)<<"Codigo"<<"|"<<setw(12)<<"Materia"<<"|"<<setw(4)<<"U"<<"|"<<setw(11)<<"Fecha"<<"|"<<endl;
+    cout<<"----------------------------------------------------------"<<endl;
+
+    for (i=0; i < N_PEDIDOS; i++){
+        int aleat = rand()%(id_libs.contarElementos());
+        Pedido ped = genPedido(id_libs.conseguirNodoN(aleat));
+        Libreria lib = ab.encontrar(ped.id_libreria);
+        mostrarPedidos(ped);
+        lib.listaPedidos->insertarNodo(ped);
+    }
+
+    cout<<endl; // Lo mismo que el otro salto de linea (MUY IMPORTANTE, DEBE ESTAR, SI NO, ME DA TOC QUE NO SE SEPARE BIEN) 
+
+}

@@ -1,8 +1,8 @@
 // Librerias y ficheros de cabecera
 # include <iostream>
 # include <ctime>
-#include <iomanip>
-#include "ccontrol.h"
+# include <iomanip>
+# include "ccontrol.h"
 // Fin inclusiones
 
 /*  Mensaje de cabecera del programa principal, aqui se explicara por medio del uso de un comentario de varias lineas como funciona el codigo por encima */
@@ -32,32 +32,7 @@ int main(){
   cout<< "Arbol vacio creado: "<<endl;
 
   //Para usar los ID de librerias en los pedidos y para convertir librerias en nodos de un arbol:
-
-  for(int i = 0; i< N_LIBRERIAS; i++){
-    Libreria lib = genLibreria();
-    id_libs.insertarNodo(lib.id_libreria);
-    ab.Insertar(lib);
-    mostrarLibrerias(lib);
-  }
-  id_libs.recorrerListaID();
-  cout<<endl;
-
-
-  cout<< "Creando los siguientes pedidos nuevos:"<<endl;
-  cout<<"----------------------------------------------------------"<<endl;
-  cout<<setw(7)<<"ID Lib"<<"|"<<setw(10)<<"ID_Pedido"<<"|"<<setw(8)<<"Codigo"<<"|"<<setw(12)<<"Materia"<<"|"<<setw(4)<<"U"<<"|"<<setw(11)<<"Fecha"<<"|"<<endl;
-  cout<<"----------------------------------------------------------"<<endl;
-
-  for (int i=0; i<N_PEDIDOS; i++){
-    int aleat = rand()%10;
-    Pedido ped = genPedido(id_libs.conseguirNodoN(aleat));
-    mostrarPedidos(ped);
-    // listaux.insertarNodo(ped);//insertar cada pedido en una lista generica para su posterior distribucion
-    Libreria lib = ab.encontrar(ped.id_libreria);
-    lib.listaPedidos->insertarNodo(ped);
-  }
-
-  cout<<endl;
+  init_ccontrol(id_libs, ab, 0);
 
   //Menu principal
   int opcion;
@@ -158,7 +133,7 @@ int main(){
             cout << "Funciona OP_7" << endl;
             break;
           case 8:
-            cout << "Funciona OP_8" << endl;
+            init_ccontrol(id_libs, ab, 1);
             break;
        }
 
