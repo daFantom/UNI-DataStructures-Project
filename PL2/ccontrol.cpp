@@ -561,7 +561,7 @@ void init_ccontrol(ListaIdentificadores &id_libs, ArbolABB &ab, int flag){
         lib.listaPedidos->insertarNodo(ped);
     }
 
-    cout<<endl; // Lo mismo que el otro salto de linea (MUY IMPORTANTE, DEBE ESTAR, SI NO, ME DA TOC QUE NO SE SEPARE BIEN) 
+    cout<<endl; // Lo mismo que el otro salto de linea (MUY IMPORTANTE, DEBE ESTAR, SI NO, ME DA TOC QUE NO SE SEPARE BIEN)
 
 }
 
@@ -662,36 +662,5 @@ void mostrarDatosLib(ArbolABB &ab, string id){
 
 }
 
-// ---------------------------  INICIALIZACION DEL PROGRAMA SI FLAG==0, EN OTRO CASO, CREA 30 PEDIDOS NUEVOS ---------------------------
 
-void init_ccontrol(ListaIdentificadores &id_libs, ArbolABB &ab, int flag){
 
-    int i;
-
-    if(!flag){
-        for(i=0; i < N_LIBRERIAS; i++){
-            Libreria lib = genLibreria();
-            id_libs.insertarNodo(lib.id_libreria);
-            ab.Insertar(lib);
-            mostrarLibrerias(lib);
-        }
-    }
-
-    cout<<endl; // Salto de linea ULTRA NECESARIO para que quede mas separado
-
-    cout<< "Creando los siguientes pedidos nuevos:"<<endl;
-    cout<<"----------------------------------------------------------"<<endl;
-    cout<<setw(7)<<"ID Lib"<<"|"<<setw(10)<<"ID_Pedido"<<"|"<<setw(8)<<"Codigo"<<"|"<<setw(12)<<"Materia"<<"|"<<setw(4)<<"U"<<"|"<<setw(11)<<"Fecha"<<"|"<<endl;
-    cout<<"----------------------------------------------------------"<<endl;
-
-    for (i=0; i < N_PEDIDOS; i++){
-        int aleat = rand()%(id_libs.contarElementos());
-        Pedido ped = genPedido(id_libs.conseguirNodoN(aleat));
-        Libreria lib = ab.encontrar(ped.id_libreria);
-        mostrarPedidos(ped);
-        lib.listaPedidos->insertarNodo(ped);
-    }
-
-    cout<<endl; // Lo mismo que el otro salto de linea (MUY IMPORTANTE, DEBE ESTAR, SI NO, ME DA TOC QUE NO SE SEPARE BIEN) 
-
-}
