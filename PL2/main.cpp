@@ -81,14 +81,14 @@ int main(){
             if(!id_libs.esta(lib_aux.id_libreria)){
 
               id_libs.insertarNodo(lib_aux.id_libreria);
-              
+
               mostrarDatosLib(ab, lib_aux.id_libreria);
               id_libs.recorrerListaID(); // Prueba
             }
 
             break;
           case 2:
-            cout << "Por favor eliga una libreria de las existentes para eliminar: "<<endl;
+            cout << "Por favor elija una libreria de las existentes para eliminar: "<<endl;
 
             id_libs.recorrerListaID();
 
@@ -104,7 +104,7 @@ int main(){
               id_libs.borrarNodo(lib_aux.id_libreria);
 
               cout<<"Se ha borrado la libreria cuyo identificador es: "<<id_aux<<endl;
-              
+
             }
             else{
               cout<<"Error, no se ha encontrado la libreria deseada."<<endl;

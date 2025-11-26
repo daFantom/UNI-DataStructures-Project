@@ -48,7 +48,7 @@ typedef NodoListaPedidos *pNodoListaPedidos; // Para no tener que poner NodoList
 
 // ||||||||||||||||||||| FIN CLASE NODO PARA LA LISTAS DE PEDIDOS |||||||||||||||||||||
 
-
+struct Libreria; //solucionar dependencias circulares
 
 // ================= CLASE LISTA SIMPLEMENTE ENLAZADA PARA PEDIDOS =================
 
@@ -74,6 +74,8 @@ public:
     Pedido valorActual();
     void recorrerLista();
     int contarPedidosLib();
+
+    bool estaPed(Libreria lib, string id);
 
 };
 

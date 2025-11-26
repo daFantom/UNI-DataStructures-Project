@@ -620,12 +620,46 @@ Pedido genPedido (string id_libreria){
 
 
 // ---------------------------  BUSCAR UN PEDIDO CONCRETO POR SU ID(CORRESPONDIENTE A OPCION 4) ---------------------------
+//esto funciona no tocar porfa pliiiiiis que estoy enredando
+bool ListaPedidos::estaPed(Libreria lib, string id){
+     bool esta = false;
+     Pedido ped;
+     pNodoListaPedidos aux;
+     aux = lib.listaPedidos->cabeza;
 
-//Pedido buscarPedidoPorId(ArbolABB ab, string id){
-//
-//
-//
-//}
+     while(!esta){
+          if(ped.id_pedido == aux->pedido.id_pedido){
+            esta = true;
+          }
+          aux = aux->siguiente;
+     }
+     return esta;
+}
+/*Pedido ArbolABB::PreOrden(void (*func)(Libreria), pNodoArbol nodo, bool r, string id)
+{
+    Lista listaux;
+    Libreria lib;
+      if (raiz==NULL) {cout<<"Arbol vacio"<<endl; return;}
+   if(r) nodo = raiz;
+   func(nodo->libreria);
+   if(nodo->izquierdo){
+        lib = nodo->izquierdo;
+        if(lib.listaPedidos->estaPed(lib,id)){
+            //devolver pedido
+        }
+
+        PreOrden(func, nodo->izquierdo, false, id);
+   }
+   if(nodo->derecho) {
+       lib = nodo->derecho;
+       if(lib.listaPedidos->estaPed(lib,id)){
+            //devolver pedido
+        }
+
+        PreOrden(func, nodo->derecho, false, id)
+
+   }
+}*/
 
 // ---------------------------  CONVERTIR LIBRERIA EN UN NODO DE UN ARBOL ---------------------------
 
