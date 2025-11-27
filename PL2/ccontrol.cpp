@@ -4,7 +4,7 @@
 
 using namespace std;
 
-// ================= METODOS LISTAS SIMPLEMENTE ENLAZADAS DE PEDIDOS =================
+// ============================================ METODOS LISTAS SIMPLEMENTE ENLAZADAS DE PEDIDOS ============================================
 
 // ------------- DESTRUCTOR -------------
 ListaPedidos::~ListaPedidos()
@@ -18,6 +18,7 @@ ListaPedidos::~ListaPedidos()
     }
     actual = NULL;
 }
+
 
 // ------------- INSERTAR UN NODO EN UNA LISTA -------------
 void ListaPedidos::insertarNodo(Pedido ped) {//lo que he cambiado->int v
@@ -35,6 +36,8 @@ void ListaPedidos::insertarNodo(Pedido ped) {//lo que he cambiado->int v
         final=aux;
     }
 }
+
+
 // -------------  BORRAR UN NODO DE UNA LISTA -------------
 void ListaPedidos::borrarNodo(Pedido ped) {
     pNodoListaPedidos anterior;
@@ -63,16 +66,19 @@ void ListaPedidos::borrarNodo(Pedido ped) {
     }
 }
 
+
 // ------------- COMPROBAR SI UNA LISTA ESTA VACIA -------------
 bool ListaPedidos::listaVacia(){
     return cabeza == NULL;
 }
+
 
 // ------------- PONER EL PUNTERO "ACTUAL" A LA CABEZA DE LA LISTA -------------
 void ListaPedidos::esCabeza()
 {
     actual = cabeza;
 }
+
 
 // ------------- PONER EL PUNTERO "ACTUAL" AL FINAL DE LA LISTA -------------
 void ListaPedidos::esFinal()
@@ -83,11 +89,13 @@ void ListaPedidos::esFinal()
             esSiguiente();
 }
 
+
 // ------------- PONER EL PUNTERO "ACTUAL" A LA SIGUIENTE POSICION DE LA LISTA -------------
 void ListaPedidos::esSiguiente()
 {
     if(actual) actual = actual->siguiente;
 }
+
 
 // ------------- COMPRUEBA SI EL PUNTERO "ACTUAL" ES NULO O NO??? -------------
 bool ListaPedidos::esActual()
@@ -95,13 +103,15 @@ bool ListaPedidos::esActual()
     return actual != NULL;
 }
 
+
 // ------------- VER EL VALOR DEL PUNTERO "ACTUAL" -------------
 Pedido ListaPedidos::valorActual()
 {
     return actual->pedido;
 }
 
-// ------------- RECORRER UNA LISTA ENTERA -------------
+
+// ------------- MUESTRA TODOS LOS PEDIDOS DE UNA LISTA DE PEDIDOS -------------
 void ListaPedidos::recorrerLista()
 {
     pNodoListaPedidos aux;
@@ -115,6 +125,8 @@ void ListaPedidos::recorrerLista()
     cout << endl;
 }
 
+
+// ------------- CUENTA LOS PEDIDOS QUE HAY EN UNA LISTA DE PEDIDOS -------------
 int ListaPedidos::contarPedidosLib(){
    pNodoListaPedidos aux;
    aux = cabeza;
@@ -130,11 +142,44 @@ int ListaPedidos::contarPedidosLib(){
    return contador;
 }
 
+
+// ---------------------------  BUSCAR UN PEDIDO CONCRETO POR SU ID (CORRESPONDIENTE A OPCION 4) ---------------------------
+//esto funciona no tocar porfa pliiiiiis que estoy enredando
+Pedido ListaPedidos::estaPed(string id_pedido){
+
+    bool found = false;
+    Pedido ped_vacio, ped;
+    ped_vacio = {" ", " ", " ", " ", " ", " ",};
+
+    pNodoListaPedidos aux;
+    aux = cabeza;
+
+    while(!found && aux!=nullptr){
+        if(id_pedido == aux->pedido.id_pedido){
+
+            found = true;
+            ped = aux->pedido;
+
+        }
+        else{
+
+            aux = aux->siguiente;
+            ped = ped_vacio;
+
+        }
+    }
+    return ped;
+}
+
+
 // ||||||||||||||||||||| FIN METODOS LISTAS SIMPLEMENTE ENLAZADAS DE PEDIDOS |||||||||||||||||||||
 
 
-// ================= METODOS LISTAS SIMPLEMENTE ENLAZADAS DE IDENTIFICADORES =================
 
+
+// ============================================ METODOS LISTAS SIMPLEMENTE ENLAZADAS DE IDENTIFICADORES ============================================
+
+// ------------- DESTRUCTOR -------------
 ListaIdentificadores::~ListaIdentificadores()
 {
     pNodoListaID aux;
@@ -147,6 +192,7 @@ ListaIdentificadores::~ListaIdentificadores()
     actual = NULL;
 }
 
+ 
 // ------------- INSERTAR UN NODO EN UNA LISTA -------------
 void ListaIdentificadores::insertarNodo(string id_lib) {//lo que he cambiado->int v
 
@@ -164,6 +210,8 @@ void ListaIdentificadores::insertarNodo(string id_lib) {//lo que he cambiado->in
         final=aux;
     }
 }
+
+
 // -------------  BORRAR UN NODO DE UNA LISTA -------------
 void ListaIdentificadores::borrarNodo(string id_lib) {
     pNodoListaID anterior;
@@ -192,16 +240,19 @@ void ListaIdentificadores::borrarNodo(string id_lib) {
     }
 }
 
+
 // ------------- COMPROBAR SI UNA LISTA ESTA VACIA -------------
 bool ListaIdentificadores::listaVacia(){
-    return cabeza == NULL;
+    return cabeza == nullptr;
 }
+
 
 // ------------- PONER EL PUNTERO "ACTUAL" A LA CABEZA DE LA LISTA -------------
 void ListaIdentificadores::esCabeza()
 {
     actual = cabeza;
 }
+
 
 // ------------- PONER EL PUNTERO "ACTUAL" AL FINAL DE LA LISTA -------------
 void ListaIdentificadores::esFinal()
@@ -212,11 +263,13 @@ void ListaIdentificadores::esFinal()
             esSiguiente();
 }
 
+
 // ------------- PONER EL PUNTERO "ACTUAL" A LA SIGUIENTE POSICION DE LA LISTA -------------
 void ListaIdentificadores::esSiguiente()
 {
     if(actual) actual = actual->siguiente;
 }
+
 
 // ------------- COMPRUEBA SI EL PUNTERO "ACTUAL" ES NULO O NO??? -------------
 bool ListaIdentificadores::esActual()
@@ -224,13 +277,15 @@ bool ListaIdentificadores::esActual()
     return actual != NULL;
 }
 
+
 // ------------- VER EL VALOR DEL PUNTERO "ACTUAL" -------------
 string ListaIdentificadores::valorActual()
 {
     return actual->identificador_lib;
 }
 
-// ------------- RECORRER UNA LISTA ENTERA -------------
+
+// ------------- MOSTRAR UNA LISTA ENTERA -------------
 void ListaIdentificadores::recorrerListaID()
 {
     pNodoListaID aux;
@@ -244,6 +299,8 @@ void ListaIdentificadores::recorrerListaID()
     cout << endl;
 }
 
+
+// ------------- CUENTA LOS ELEMENTOS DE UNA LISTA -------------
 int ListaIdentificadores::contarElementos(){
    pNodoListaID aux;
    aux = cabeza;
@@ -259,6 +316,8 @@ int ListaIdentificadores::contarElementos(){
    return contador;
 }
 
+
+// ------------- CONSEGUIR EL ID DE UN NODO DADO UN ENTERO -------------
 string ListaIdentificadores::conseguirNodoN(int n){
 
     pNodoListaID aux;
@@ -274,7 +333,9 @@ string ListaIdentificadores::conseguirNodoN(int n){
     return aux->identificador_lib;
 }
 
-bool ListaIdentificadores::esta(string id_lib){
+
+// ------------- BUSCAR SI UN IDENTIFICADOR DE LIBRERIA SE ENCUENTRA EN LA LISTA DE IDENTIFICADORES -------------
+bool ListaIdentificadores::estaID(string id_lib){
     pNodoListaID aux;
     aux = cabeza;
 
@@ -283,6 +344,8 @@ bool ListaIdentificadores::esta(string id_lib){
     }
     return aux!=NULL;
 }
+
+
 // ||||||||||||||||||||| FIN METODOS LISTAS SIMPLEMENTE ENLAZADAS DE IDENTIFICADORES |||||||||||||||||||||
 
 
@@ -295,11 +358,13 @@ ArbolABB::~ArbolABB()
             Podar(raiz);
         }
 
+
 // ------------- ARBOL VACIO -------------
 bool ArbolABB::Vacio(pNodoArbol r)
         {
-            return r==NULL;
+            return r==nullptr;
         }
+
 
 // ------------- NODO ES HOJA? -------------
 bool ArbolABB::EsHoja(pNodoArbol r)
@@ -307,11 +372,13 @@ bool ArbolABB::EsHoja(pNodoArbol r)
             return !r->derecho && !r->izquierdo;
         }
 
+
 // ------------- COLOCAR PUNTERO "ACTUAL" A LA RAIZ DEL ARBOL -------------
 void ArbolABB::Raiz()
         {
             actual = raiz;
         }
+
 
 // ------------- auxiliar -> PODAR: BORRA TODOS LOS NODOS A PARTIR DE UNO DADO -------------
 void ArbolABB::Podar(NodoArbol* &nodo)
@@ -325,17 +392,23 @@ void ArbolABB::Podar(NodoArbol* &nodo)
    }
 }
 
+
 // ------------- INSERTAR UNA LIBRERIA EN UN ABB -------------
 void ArbolABB::Insertar(const Libreria lib)//const int dat-> lo que he cambiado
 {
    pNodoArbol padre = NULL;
 
    actual = raiz;
+
    // Buscar el int en el arbol, manteniendo un puntero al nodo padre
    while(!Vacio(actual) && lib.id_libreria != actual->libreria.id_libreria) {
+
       padre = actual;
+
       if(lib.id_libreria > actual->libreria.id_libreria) actual = actual->derecho;
+
       else if(lib.id_libreria < actual->libreria.id_libreria) actual = actual->izquierdo;
+
    }
 
    // Si se ha encontrado el elemento, regresar sin insertar
@@ -353,6 +426,7 @@ void ArbolABB::Insertar(const Libreria lib)//const int dat-> lo que he cambiado
    // Si el int es mayor que el que contiene el nodo padre, lo insertamos en la rama derecha
    else if(lib.id_libreria > padre->libreria.id_libreria) padre->derecho = new NodoArbol(lib);
 }
+
 
 // ------------- ELIMINAR UNA LIBRERIA EN UN ABB -------------
 void ArbolABB::Borrar(const Libreria lib)//int dat->lo que he cambiado
@@ -406,7 +480,8 @@ void ArbolABB::Borrar(const Libreria lib)//int dat->lo que he cambiado
             actual = nodo;
          }
       }
-      else { // Todavia no hemos encontrado el valor, seguir buscandolo
+      else {
+         // Todavia no hemos encontrado el valor, seguir buscandolo
          padre = actual;
          if(lib.id_libreria > actual->libreria.id_libreria) actual = actual->derecho;
          else if(lib.id_libreria < actual->libreria.id_libreria) actual = actual->izquierdo;
@@ -414,8 +489,8 @@ void ArbolABB::Borrar(const Libreria lib)//int dat->lo que he cambiado
    }
 }
 
-//  ------------- RECCORRIDO DEL ARBOL EN IN-ORDEN (aplicamos la funcion func, que tiene el prototipo): -------------
 
+//  ------------- RECCORRIDO DEL ARBOL EN IN-ORDEN (aplicamos la funcion func, que tiene el prototipo): -------------
 // void func(int&);
 void ArbolABB::InOrden(void (*func)(Libreria) , pNodoArbol nodo, bool r)
 {
@@ -425,6 +500,18 @@ void ArbolABB::InOrden(void (*func)(Libreria) , pNodoArbol nodo, bool r)
    func(nodo->libreria);
    if(nodo->derecho) InOrden(func, nodo->derecho, false);
 }
+
+
+//  ------------- RECCORRIDO DEL ARBOL EN IN-ORDEN PARA PEDIDOS -------------
+void ArbolABB::InOrdenPedidos(void(*func)(Libreria, string), string id_ped, pNodoArbol nodo, bool r)
+{
+  if (raiz==NULL) {cout<<"Arbol vacio"<<endl; return;}
+   if(r) nodo = raiz;
+   if(nodo->izquierdo) InOrdenPedidos(func, id_ped, nodo->izquierdo, false);
+   func(nodo->libreria, id_ped);
+   if(nodo->derecho) InOrdenPedidos(func, id_ped, nodo->derecho, false);
+}
+
 
 // ------------- RECORRIDO DEL ARBOL EN PRE-ORDEN (aplicamos la funcion func, que tiene el prototipo): -------------
 
@@ -450,6 +537,7 @@ void ArbolABB::PostOrden(void (*func)(Libreria), pNodoArbol nodo, bool r)
    func(nodo->libreria);
 }
 
+
 // ------------- BUSCAR UNA LIBRERIA EN EL ARBOL -------------
 bool ArbolABB::Buscar(const Libreria lib)
 {
@@ -463,6 +551,7 @@ bool ArbolABB::Buscar(const Libreria lib)
    }
    return false; // No esta en arbol
 }
+
 
 // ------------- CALCULAR LA ALTURA DEL NODO QUE CONTIENE LA LIBRERIA INDICADA -------------
 int ArbolABB::Altura(const Libreria lib)
@@ -482,6 +571,7 @@ int ArbolABB::Altura(const Libreria lib)
    return -1; // No esta en arbol
 }
 
+
 // ------------- CONTAR EL NUMERO DE NODOS -------------
 const int ArbolABB::NumeroNodos()
 {
@@ -490,6 +580,7 @@ const int ArbolABB::NumeroNodos()
    auxContador(raiz); // Funcion auxiliar
    return contador;
 }
+
 
 // ------------- Funcion auxiliar para contar nodos. Funcion recursiva de recorrido en preorden, el proceso es aumentar el contador -------------
 void ArbolABB::auxContador(pNodoArbol nodo)
@@ -500,6 +591,7 @@ void ArbolABB::auxContador(pNodoArbol nodo)
    if(nodo->derecho)   auxContador(nodo->derecho);
 }
 
+
 // ------------- CALCULAR LA ALTURA DEL ARBOL (el nodo mayor de dicho arbol) -------------
 const int ArbolABB::AlturaArbol()
 {
@@ -509,7 +601,8 @@ const int ArbolABB::AlturaArbol()
    return altura;
 }
 
-// Funcion auxiliar para calcular altura. Funcion recursiva de recorrido en postorden, el proceso es actualizar la altura solo en nodos hojas de mayor altura de la maxima actual
+
+// --- FUNCION AUXILIAR PARA CALCULAR ALTURA EN RECORRIDO POST-ORDEN. ACTUALIZA LA ALTURA SOLO EN NODOS HOJAS DE MAYOR ALTURA DE LA MAXIMA ACTUAL ---
 void ArbolABB::auxAltura(pNodoArbol nodo, int a)
 {
    // Recorrido postorden
@@ -520,19 +613,48 @@ void ArbolABB::auxAltura(pNodoArbol nodo, int a)
    if(EsHoja(nodo) && a > altura) altura = a;
 }
 
-// -------------  FUNCION DE PRUEBA PARA RECORRRIDOS DE UN ARBOL -------------
-void Mostrar(int d)
-{
-   cout << d << ",";
+
+// --------------------------- BUSCAR UNA LIBRERIA EN UN ARBOL POR SU ID ---------------------------
+Libreria ArbolABB::encontrarLib(string id){
+
+    actual = raiz;
+    Libreria lib_vacia = {" "," ", NULL}; // En caso de que no se haya encontrado.
+
+   // Todavia puede aparecer, ya que quedan nodos por mirar
+   while(!Vacio(actual)) {
+      if(id == actual->libreria.id_libreria) return actual->libreria;
+      else if(id > actual->libreria.id_libreria) actual = actual->derecho; // Seguir
+      else if(id < actual->libreria.id_libreria) actual = actual->izquierdo;
+   }
+    return lib_vacia; // Si no se ha encontrado
 }
+
+
 // ||||||||||||||||||||| FIN METODOS ARBOLES DE BUSQUEDA |||||||||||||||||||||
 
 
 
+// ==================================================================== FUNCIONES AUXILIARES ====================================================================
 
-// ========================= FUNCIONES AUXILIARES =========================
 
-// ---------------------------  INICIALIZACION DEL PROGRAMA SI FLAG==0, EN OTRO CASO, CREA 30 PEDIDOS NUEVOS ---------------------------
+//---------------------------  MOSTRAR EL MENU ---------------------------
+void showMenu(){
+    cout<<endl;
+    cout << "===== MENU =====" << endl;
+    cout << "1) Insertar una libreria de forma manual" << endl;
+    cout << "2) Borrar una libreria del arbol" << endl;
+    cout << "3) Mostrar los datos de una libreria dada" << endl;
+    cout << "4) Buscar un pedido concreto por su ID" << endl;
+    cout << "5) Extraer un pedido concreto" << endl;
+    cout << "6) Llevar un pedido concreto de una libreria a otra" << endl;
+    cout << "7) Mostrar una estadistica de unas librerias" << endl;
+    cout << "8) Continuar con la distribucion de pedidos" << endl;
+    cout << "0) Salir" << endl;
+    cout << "Opcion: ";
+}
+
+
+// ---------------------------  INICIALIZACION DEL PROGRAMASI FLAG==0, EN OTRO CASO, CREA 30 PEDIDOS NUEVOS ---------------------------
 void init_ccontrol(ListaIdentificadores &id_libs, ArbolABB &ab, int flag){
 
     int i;
@@ -542,7 +664,7 @@ void init_ccontrol(ListaIdentificadores &id_libs, ArbolABB &ab, int flag){
             Libreria lib = genLibreria();
             id_libs.insertarNodo(lib.id_libreria);
             ab.Insertar(lib);
-            mostrarLibrerias(lib);
+            mostrarLibreria(lib);
         }
     }
 
@@ -556,31 +678,33 @@ void init_ccontrol(ListaIdentificadores &id_libs, ArbolABB &ab, int flag){
     for (i=0; i < N_PEDIDOS; i++){
         int aleat = rand()%(id_libs.contarElementos());
         Pedido ped = genPedido(id_libs.conseguirNodoN(aleat));
-        Libreria lib = ab.encontrar(ped.id_libreria);
-        mostrarPedidos(ped);
+        Libreria lib = ab.encontrarLib(ped.id_libreria);
+        mostrarPedido(ped);
         lib.listaPedidos->insertarNodo(ped);
     }
 
-    cout<<endl; // Lo mismo que el otro salto de linea (MUY IMPORTANTE, DEBE ESTAR, SI NO, ME DA TOC QUE NO SE SEPARE BIEN)
+    cout<<endl; // Lo mismo que el otro salto de linea (MUY IMPORTANTE, DEBE ESTAR, SI NO, LLORO PQ ESTA TODO MUY JUNTO QWQ
 
 }
 
-// ---------------------------  FUNCION PARA ESCRITURA DE LAS LIBRERIAS EN EL MENU ---------------------------
 
-void mostrarLibrerias(Libreria lib){
+// ---------------------------  FUNCION PARA MOSTRAR LOS DATOS Y CONTENIDO DE UNA LIBRERIA ---------------------------
+void mostrarLibreria(Libreria lib){
 
     cout<<"ID_LIB: "<<lib.id_libreria<<" - Localidad: "<<lib.localidad <<" - Num Pedidos: "<<lib.listaPedidos->contarPedidosLib()<<endl;
 
 }
-// ---------------------------  FUNCION PARA ESCRITURA DE LAS LIBRERIAS EN EL MENU ---------------------------
 
-void mostrarPedidos(Pedido ped){
+
+// ---------------------------  FUNCION PARA MOSTRAR LOS DATOS DE UN PEDIDO ---------------------------
+void mostrarPedido(Pedido ped){
 
     cout<<setw(7)<<ped.id_libreria<<'|'<<setw(10)<<ped.id_pedido<<'|'<<setw(8)<<ped.cod_libro<<'|'<<setw(12)<<ped.materia<<'|'<<setw(4)<<ped.cantidad<<"|"<<setw(11)<<ped.fecha_envio<<endl;
 
 }
 
-// ---------------------------  FUNCION PARA LA CREACION DE LAS LIBRERIAS ---------------------------
+
+// ---------------------------  FUNCION PARA GENERAR UNA LIBRERIA ---------------------------
 Libreria genLibreria(){
     string localidades [20] = {"Mostoles", "Alcala", "Leganes", "Fuenlabrada", "Getafe", "Alcorcon",
      "Torrejon", "Parla", "Alcobendas", "Coslada", "Pozuelo", "Rivas", "Valdemoro", "Majadahonda",
@@ -595,11 +719,14 @@ Libreria genLibreria(){
     return libreria;
 
 }
-// ---------------------------  FUNCION PARA LA CREACION DE PEDIDOS ---------------------------
+
+
+// ---------------------------  FUNCION PARA GENERAR UN PEDIDO SEGUN UN ID DE LIBRERIA ---------------------------
 Pedido genPedido (string id_libreria){
     char abecedario[26] = {'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'};
     int numaleat1,numaleat2;
     char letraAleat;
+    Pedido ped;
     letraAleat = abecedario[rand()%(sizeof(abecedario)/sizeof(abecedario[0]))];
     numaleat1=rand()%999; // Se coge un numero de entre 0 y 998 de forma pseudoaleatoria.
     numaleat2=rand()%99;
@@ -610,83 +737,26 @@ Pedido genPedido (string id_libreria){
     string fecha_envio = to_string(rand()%32)+"-"+to_string(rand()%13)+"-2025";
 
     string materias[6] ={"Matematicas","Fisica","Tecnologia","Musica","Historia", "Lengua"};
+
     string materia = materias[rand()%(sizeof(materias)/sizeof(materias[0]))];
 
     string id_pedido = "P"+to_string(rand()%99999);
 
-    Pedido ped = {id_libreria,id_pedido,cod_libro,materia,cantidad,fecha_envio};
+    ped = {id_libreria,id_pedido,cod_libro,materia,cantidad,fecha_envio};
+
     return ped;
 }
 
 
-// ---------------------------  BUSCAR UN PEDIDO CONCRETO POR SU ID(CORRESPONDIENTE A OPCION 4) ---------------------------
-//esto funciona no tocar porfa pliiiiiis que estoy enredando
-bool ListaPedidos::estaPed(Libreria lib, string id){
-     bool esta = false;
-     Pedido ped;
-     pNodoListaPedidos aux;
-     aux = lib.listaPedidos->cabeza;
-
-     while(!esta){
-          if(ped.id_pedido == aux->pedido.id_pedido){
-            esta = true;
-          }
-          aux = aux->siguiente;
-     }
-     return esta;
-}
-/*Pedido ArbolABB::PreOrden(void (*func)(Libreria), pNodoArbol nodo, bool r, string id)
-{
-    Lista listaux;
-    Libreria lib;
-      if (raiz==NULL) {cout<<"Arbol vacio"<<endl; return;}
-   if(r) nodo = raiz;
-   func(nodo->libreria);
-   if(nodo->izquierdo){
-        lib = nodo->izquierdo;
-        if(lib.listaPedidos->estaPed(lib,id)){
-            //devolver pedido
-        }
-
-        PreOrden(func, nodo->izquierdo, false, id);
-   }
-   if(nodo->derecho) {
-       lib = nodo->derecho;
-       if(lib.listaPedidos->estaPed(lib,id)){
-            //devolver pedido
-        }
-
-        PreOrden(func, nodo->derecho, false, id)
-
-   }
-}*/
-
-// ---------------------------  CONVERTIR LIBRERIA EN UN NODO DE UN ARBOL ---------------------------
-
-//en estos momentos no se esta utilizando esta funcion
-NodoArbol* crearNodoLib(Libreria lib){
+// --------------------------- CONVERTIR LIBRERIA EN UN NODO DE UN ARBOL (EN DESUSO) ---------------------------
+pNodoArbol crearNodoLib(Libreria lib){
     return new NodoArbol(lib);
 }
 
-// ---------------------------  BUSCAR EN UN ARBOL LA LIBRERIA POR SU ID ---------------------------
 
-Libreria ArbolABB::encontrar(string id){
-
-    actual = raiz;
-    Libreria lib_vacia = {" "," ", NULL}; // En caso de que no se haya encontrado.
-
-   // Todavia puede aparecer, ya que quedan nodos por mirar
-   while(!Vacio(actual)) {
-      if(id == actual->libreria.id_libreria) return actual->libreria;
-      else if(id > actual->libreria.id_libreria) actual = actual->derecho; // Seguir
-      else if(id < actual->libreria.id_libreria) actual = actual->izquierdo;
-   }
-    return lib_vacia; // Si no se ha encontrado
-}
 // ---------------------------  MOSTRAR LOS DATOS DE UNA LIBRERIA DADA(CORRESPONDIENTE A OPCION 3) ---------------------------
-
 void mostrarDatosLib(ArbolABB &ab, string id){
-    Libreria lib = ab.encontrar(id);
+    Libreria lib = ab.encontrarLib(id);
     if(lib.id_libreria != " "){
         cout<<"ID_LIB: "<<lib.id_libreria<<" - Localidad: "<<lib.localidad<<" - Numero de pedidos: "<<lib.listaPedidos->contarPedidosLib()<<endl<<endl;
     }
@@ -694,6 +764,21 @@ void mostrarDatosLib(ArbolABB &ab, string id){
         cout<<"No se ha encontrado la libreria con el codigo: "<<id<<". Por favor, intentelo de nuevo con unos datos validos."<<endl;
     }
 
+}
+
+
+// ---------------------------  MOSTRAR LOS DATOS DE UN PEDIDO SI SE ENCUENTRAN EN UNA LIBRERIA (USADA NORMALMENTE PARA EL METODO ArbolABB::InOrdenPedidos) ---------------------------
+void encontrarPedido(Libreria lib, string id_pedido){
+
+    Pedido ped = lib.listaPedidos->estaPed(id_pedido);
+
+    if(ped.id_pedido != " "){
+
+        mostrarPedido(ped);
+        return;
+
+    }
+    return;
 }
 
 

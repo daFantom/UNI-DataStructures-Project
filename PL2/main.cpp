@@ -21,11 +21,11 @@ int main(){
 
   ListaIdentificadores id_libs; // Declaracion de una lista de Identificadores dinamica.
 
-  string id_busqueda, id_aux, localidad_aux;
+  string id_busqueda, id_aux, localidad_aux, id_ped_aux;
 
   string localidades [20] = {"Mostoles", "Alcala", "Leganes", "Fuenlabrada", "Getafe", "Alcorcon",
-     "Torrejon", "Parla", "Alcobendas", "Coslada", "Pozuelo", "Rivas", "Valdemoro", "Majadahonda",
-     "Aranjuez", "Arganda", "Boadilla", "Pinto", "Colmenar", "Tres Cantos"};
+    "Torrejon", "Parla", "Alcobendas", "Coslada", "Pozuelo", "Rivas", "Valdemoro", "Majadahonda",
+    "Aranjuez", "Arganda", "Boadilla", "Pinto", "Colmenar", "Tres Cantos"};
 
 
   cout<< "Creado el ABB con "<< N_LIBRERIAS << " nodos"<<endl;
@@ -37,106 +37,100 @@ int main(){
   //Menu principal
   int opcion;
   do{
-       cout << "===== MENU =====" << endl;
-       cout << "1) Insertar una libreria de forma manual" << endl;
-       cout << "2) Borrar una libreria del arbol" << endl;
-       cout << "3) Mostrar los datos de una libreria dada" << endl;
-       cout << "4) Buscar un pedido concreto por su ID" << endl;
-       cout << "5) Extraer un pedido concreto" << endl;
-       cout << "6) Llevar un pedido concreto de una libreria a otra" << endl;
-       cout << "7) Mostrar una estadistica de unas librerias" << endl;
-       cout << "8) Continuar con la distribucion de pedidos" << endl;
-       cout << "0) Salir" << endl;
-       cout << "Opcion: "; cin >> opcion;
-       cout << endl;
+    showMenu();
+    cin >> opcion;
+    cout << endl;
 
+    switch(opcion){
+      case 1:
+        cout << "Inserte una ID para tu libreria [0 - 999]: ";
 
-       switch(opcion){
-          case 1:
-            cout << "Inserte una ID para tu libreria [0 - 999]: ";
+        cin >> id_aux; cout << endl;
 
-            cin >> id_aux; cout << endl;
+        cout << "Inserte una Localidad de las siguientes: "<<endl;
 
-            cout << "Inserte una Localidad de las siguientes: "<<endl;
+        for(int i = 0; i<20; i++){
+          if(i <= 18){
+            cout<<localidades[i]<<", ";
+          }
+          else{
+            cout<<localidades[i]<<"."<<endl<<endl;
+          }
+        }
 
-            for(int i = 0; i<20; i++){
+        cin >> localidad_aux;
 
-              if(i <= 18){
-                cout<<localidades[i]<<", ";
-              }
-              else{
-                cout<<localidades[i]<<endl<<endl;
-              }
+        cout<< "Creando libreria..."<<endl;
+        lib_aux = {id_aux, localidad_aux, new ListaPedidos()};
 
-            }
+        cout<<"Insertando..."<<endl;
+        ab.Insertar(lib_aux);
 
-            cin >> localidad_aux;
+        if(!id_libs.estaID(lib_aux.id_libreria)){
+          id_libs.insertarNodo(lib_aux.id_libreria);
 
-            cout<< "Creando libreria..."<<endl;
-            lib_aux = {id_aux, localidad_aux, new ListaPedidos()};
+          mostrarDatosLib(ab, lib_aux.id_libreria);
+          id_libs.recorrerListaID(); // Prueba
+        }
 
-            cout<<"Insertando..."<<endl;
-            ab.Insertar(lib_aux);
+        break;
+      case 2:
+        cout << "Por favor elija una libreria de las existentes para eliminar: "<<endl;
 
-            if(!id_libs.esta(lib_aux.id_libreria)){
+        id_libs.recorrerListaID();
 
-              id_libs.insertarNodo(lib_aux.id_libreria);
+        cin >> id_aux;
 
-              mostrarDatosLib(ab, lib_aux.id_libreria);
-              id_libs.recorrerListaID(); // Prueba
-            }
+        cout<<"Buscando..."<<endl;
+        lib_aux = ab.encontrarLib(id_aux);
 
-            break;
-          case 2:
-            cout << "Por favor elija una libreria de las existentes para eliminar: "<<endl;
+        if(lib_aux.id_libreria != " "){
 
-            id_libs.recorrerListaID();
+          ab.Borrar(lib_aux);
 
-            cin >> id_aux;
+          id_libs.borrarNodo(lib_aux.id_libreria);
 
-            cout<<"Buscando..."<<endl;
-            lib_aux = ab.encontrar(id_aux);
+          cout<<"Se ha borrado la libreria cuyo identificador es: "<<id_aux<<endl;
 
-            if(lib_aux.id_libreria != " "){
+        }
+        else{
+          cout<<"Error, no se ha encontrado la libreria deseada."<<endl;
+        }
 
-              ab.Borrar(lib_aux);
+        break;
+      case 3:
+        cout << "Por favor, seleccione una de las siguientes librerias disponibles: "<<endl;
 
-              id_libs.borrarNodo(lib_aux.id_libreria);
+        id_libs.recorrerListaID();
+        cin >> id_busqueda;
+        cout << endl;
 
-              cout<<"Se ha borrado la libreria cuyo identificador es: "<<id_aux<<endl;
+        mostrarDatosLib(ab, id_busqueda);
+        break;
+      case 4:
+        cout << "Por favor, inserte el codigo del pedido a buscar respetando el formato establecido [P000A00]: "<<endl;
+        cin >> id_ped_aux;
+        cout << "Si no se muestra nada, no se ha encontrado el pedido."<<endl<<endl;
+        cout<<"----------------------------------------------------------"<<endl;
+        cout<<setw(7)<<"ID Lib"<<"|"<<setw(10)<<"ID_Pedido"<<"|"<<setw(8)<<"Codigo"<<"|"<<setw(12)<<"Materia"<<"|"<<setw(4)<<"U"<<"|"<<setw(11)<<"Fecha"<<"|"<<endl;
+        cout<<"----------------------------------------------------------"<<endl;
 
-            }
-            else{
-              cout<<"Error, no se ha encontrado la libreria deseada."<<endl;
-            }
+        ab.InOrdenPedidos(encontrarPedido, id_ped_aux);
 
-            break;
-          case 3:
-            cout << "Por favor, seleccione una de las siguientes librerias disponibles: "<<endl;
-
-            id_libs.recorrerListaID();
-            cin >> id_busqueda;
-            cout << endl;
-
-            mostrarDatosLib(ab, id_busqueda);
-            break;
-          case 4:
-            cout << "Funciona OP_4" << endl;
-            break;
-          case 5:
-            cout << "Funciona OP_5" << endl;
-            break;
-          case 6:
-            cout << "Funciona OP_6" << endl;
-            break;
-          case 7:
-            cout << "Funciona OP_7" << endl;
-            break;
-          case 8:
-            init_ccontrol(id_libs, ab, 1);
-            break;
-       }
-
+        break;
+      case 5:
+        cout << "Funciona OP_5" << endl;
+        break;
+      case 6:
+        cout << "Funciona OP_6" << endl;
+        break;
+      case 7:
+        cout << "Funciona OP_7" << endl;
+        break;
+      case 8:
+        init_ccontrol(id_libs, ab, 1);
+        break;
+    }
 
   }while(opcion!=0);
 

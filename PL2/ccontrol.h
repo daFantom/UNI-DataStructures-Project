@@ -74,8 +74,7 @@ public:
     Pedido valorActual();
     void recorrerLista();
     int contarPedidosLib();
-
-    bool estaPed(Libreria lib, string id);
+    Pedido estaPed(string id);
 
 };
 
@@ -133,7 +132,7 @@ public:
     void recorrerListaID();
     int contarElementos();
     string conseguirNodoN(int n);
-    bool esta(string id_lib);
+    bool estaID(string id_lib);
 
 };
 
@@ -208,9 +207,10 @@ class ArbolABB
         void InOrden(void (*func)(Libreria), pNodoArbol nodo=NULL, bool r=true);
         void PreOrden(void (*func)(Libreria), pNodoArbol nodo=NULL, bool r=true);
         void PostOrden(void (*func)(Libreria), pNodoArbol nodo=NULL, bool r=true);
+        void InOrdenPedidos(void (*func)(Libreria, string), string id_ped, pNodoArbol nodo=NULL, bool r=true);
 
         //Buscar libreria por su id
-        Libreria encontrar(string id);
+        Libreria encontrarLib(string id);
 
     private:
         // Funciones auxiliares
@@ -222,14 +222,25 @@ class ArbolABB
 // ||||||||||||||||||||| FIN CLASE ARBOLES DE BUSQUEDA |||||||||||||||||||||
 
 
-//DECLARACION DE FUNCIONES//
+// DECLARACION DE FUNCIONES AUXILIARES
+
+void showMenu();
+
 void init_ccontrol(ListaIdentificadores &id_libs, ArbolABB &ab, int flags);
-void mostrarLibrerias(Libreria lib);
-void mostrarPedidos(Pedido ped);
+
+void mostrarLibreria(Libreria lib);
+
+void mostrarPedido(Pedido ped);
+
 Libreria genLibreria();
+
 Pedido genPedido (string id_libreria);
+
 void mostrarDatosLib(ArbolABB &ab, string id);
+
 NodoArbol* crearNodoLib(Libreria lib);
+
+void encontrarPedido(Libreria, string);
 
 
 
