@@ -207,7 +207,7 @@ class ArbolABB
         void InOrden(void (*func)(Libreria), pNodoArbol nodo=NULL, bool r=true);
         void PreOrden(void (*func)(Libreria), pNodoArbol nodo=NULL, bool r=true);
         void PostOrden(void (*func)(Libreria), pNodoArbol nodo=NULL, bool r=true);
-        void InOrdenPedidos(void (*func)(Libreria, string), string id_ped, pNodoArbol nodo=NULL, bool r=true);
+        void InOrdenPedidos(void (*func)(Libreria, string, int), string id_ped, int flag, pNodoArbol nodo=NULL, bool r=true);
 
         //Buscar libreria por su id
         Libreria encontrarLib(string id);
@@ -240,7 +240,11 @@ void mostrarDatosLib(ArbolABB &ab, string id);
 
 NodoArbol* crearNodoLib(Libreria lib);
 
-void encontrarPedido(Libreria, string);
+void findOrExtractPedido(Libreria lib, string id_pedido, int flag);
+
+bool nuevaLibManual(string idlib, string loc, ArbolABB &abb, ListaIdentificadores &ids);
+
+void readLocalidades(string arr[20]);
 
 
 

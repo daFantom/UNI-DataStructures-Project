@@ -49,28 +49,21 @@ int main(){
 
         cout << "Inserte una Localidad de las siguientes: "<<endl;
 
-        for(int i = 0; i<20; i++){
-          if(i <= 18){
-            cout<<localidades[i]<<", ";
-          }
-          else{
-            cout<<localidades[i]<<"."<<endl<<endl;
-          }
-        }
+        readLocalidades(localidades);
 
         cin >> localidad_aux;
 
         cout<< "Creando libreria..."<<endl;
-        lib_aux = {id_aux, localidad_aux, new ListaPedidos()};
 
-        cout<<"Insertando..."<<endl;
-        ab.Insertar(lib_aux);
+        if(nuevaLibManual(id_aux, localidad_aux, ab, id_libs)){
 
-        if(!id_libs.estaID(lib_aux.id_libreria)){
-          id_libs.insertarNodo(lib_aux.id_libreria);
-
-          mostrarDatosLib(ab, lib_aux.id_libreria);
+          cout<<"Insertando..."<<endl;
           id_libs.recorrerListaID(); // Prueba
+          mostrarDatosLib(ab, ab.encontrarLib(id_aux).id_libreria);
+
+        }
+        else{
+          cout<<"Error: el identificador de esta libreria ya se encuentra en el sistema."<<endl;
         }
 
         break;
@@ -108,27 +101,26 @@ int main(){
         mostrarDatosLib(ab, id_busqueda);
         break;
       case 4:
-        cout << "Por favor, inserte el codigo del pedido a buscar respetando el formato establecido [P000A00]: "<<endl;
+        cout << "Por favor, inserte el codigo del pedido a buscar respetando el formato establecido [P000A00]: ";
         cin >> id_ped_aux;
+
+        cout<<endl;
+
         cout << "Si no se muestra nada, no se ha encontrado el pedido."<<endl<<endl;
         cout<<"----------------------------------------------------------"<<endl;
         cout<<setw(7)<<"ID Lib"<<"|"<<setw(10)<<"ID_Pedido"<<"|"<<setw(8)<<"Codigo"<<"|"<<setw(12)<<"Materia"<<"|"<<setw(4)<<"U"<<"|"<<setw(11)<<"Fecha"<<"|"<<endl;
         cout<<"----------------------------------------------------------"<<endl;
 
-        ab.InOrdenPedidos(encontrarPedido, id_ped_aux);
-
+        ab.InOrdenPedidos(findOrExtractPedido, id_ped_aux, 0);
+        
         break;
       case 5:
-        cout << "Funciona OP_5" << endl;
-        break;
-      case 6:
-        cout << "Funciona OP_6" << endl;
-        break;
-      case 7:
-        cout << "Funciona OP_7" << endl;
-        break;
-      case 8:
-        init_ccontrol(id_libs, ab, 1);
+        cout << "Por favor, inserte el codigo del pedido a buscar respetando el formato establecido [P000A00]: ";
+        cin >> id_ped_aux;
+        cout<<endl;
+        cout << "Si no se muestra nada, no se ha encontrado el pedido."<<endl<<endl;
+        ab.InOrdenPedidos(findOrExtractPedido, id_ped_aux, 1);
+
         break;
     }
 

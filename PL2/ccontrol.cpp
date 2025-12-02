@@ -192,7 +192,7 @@ ListaIdentificadores::~ListaIdentificadores()
     actual = NULL;
 }
 
- 
+
 // ------------- INSERTAR UN NODO EN UNA LISTA -------------
 void ListaIdentificadores::insertarNodo(string id_lib) {//lo que he cambiado->int v
 
@@ -503,13 +503,13 @@ void ArbolABB::InOrden(void (*func)(Libreria) , pNodoArbol nodo, bool r)
 
 
 //  ------------- RECCORRIDO DEL ARBOL EN IN-ORDEN PARA PEDIDOS -------------
-void ArbolABB::InOrdenPedidos(void(*func)(Libreria, string), string id_ped, pNodoArbol nodo, bool r)
+void ArbolABB::InOrdenPedidos(void(*func)(Libreria, string, int), string id_ped, int flag, pNodoArbol nodo, bool r)
 {
   if (raiz==NULL) {cout<<"Arbol vacio"<<endl; return;}
    if(r) nodo = raiz;
-   if(nodo->izquierdo) InOrdenPedidos(func, id_ped, nodo->izquierdo, false);
-   func(nodo->libreria, id_ped);
-   if(nodo->derecho) InOrdenPedidos(func, id_ped, nodo->derecho, false);
+   if(nodo->izquierdo) InOrdenPedidos(func, id_ped, flag, nodo->izquierdo, false);
+   func(nodo->libreria, id_ped, flag);
+   if(nodo->derecho) InOrdenPedidos(func, id_ped, flag, nodo->derecho, false);
 }
 
 
@@ -768,18 +768,58 @@ void mostrarDatosLib(ArbolABB &ab, string id){
 
 
 // ---------------------------  MOSTRAR LOS DATOS DE UN PEDIDO SI SE ENCUENTRAN EN UNA LIBRERIA (USADA NORMALMENTE PARA EL METODO ArbolABB::InOrdenPedidos) ---------------------------
-void encontrarPedido(Libreria lib, string id_pedido){
+// int flag == 0, encuentra y muestra sus datos; flag == 1, encuentra, muestra sus datos y lo extrae  de las librerias en las que se encuentra.
+void findOrExtractPedido(Libreria lib, string id_pedido, int flag){
 
     Pedido ped = lib.listaPedidos->estaPed(id_pedido);
+    string materia = ped.materia;
+    bool esPedidoVacio = (ped.id_pedido == " ");
 
-    if(ped.id_pedido != " "){
-
-        mostrarPedido(ped);
+    if( (!esPedidoVacio) && flag){
+        //mostrarPedido(ped);
+        lib.listaPedidos->borrarNodo(ped);
+        cout<<"Se ha borrado el pedido con identificador "<<id_pedido<<" de la biblioteca con identificador "<<lib.id_libreria<<endl;
+        cout<<"La materia de los libros de dicho pedido han sido de: "<<materia<<endl;
+        mostrarLibreria(lib);
         return;
 
+    }
+    else if(!esPedidoVacio){
+        mostrarPedido(ped);
     }
     return;
 }
 
+
+// ---------------------------  INSERCION MANUAL DE UNA LIBRERIA EN EL ARBOL ---------------------------
+bool nuevaLibManual(string idlib, string loc, ArbolABB &abb, ListaIdentificadores &ids){
+
+    Libreria nuevaLib;
+
+    if(ids.estaID(idlib)){
+        return false;
+    }
+    else{
+        nuevaLib = {idlib, loc, new ListaPedidos()};
+        abb.Insertar(nuevaLib);
+        ids.insertarNodo(nuevaLib.id_libreria);
+    }
+    return true;
+}
+
+// --------------------------- LEER UN ARRAY DE STRINGS ---------------------------
+void readLocalidades(string arr[20]){
+    int i;
+    int longArr = 20;
+
+    for(i = 0; i < longArr; i++){
+        if(i<longArr-2){
+            cout<<arr[i]<<", ";
+        }
+        else{
+            cout<<arr[i]<<endl;
+        }
+    }
+}
 
 
