@@ -21,7 +21,7 @@ int main(){
 
   ListaIdentificadores id_libs; // Declaracion de una lista de Identificadores dinamica.
 
-  string id_busqueda, id_aux, localidad_aux, id_ped_aux;
+  string id_aux, localidad_aux, id_ped_aux;
 
   string localidades [20] = {"Mostoles", "Alcala", "Leganes", "Fuenlabrada", "Getafe", "Alcorcon",
     "Torrejon", "Parla", "Alcobendas", "Coslada", "Pozuelo", "Rivas", "Valdemoro", "Majadahonda",
@@ -95,13 +95,13 @@ int main(){
         cout << "Por favor, seleccione una de las siguientes librerias disponibles: "<<endl;
 
         id_libs.recorrerListaID();
-        cin >> id_busqueda;
+        cin >> id_aux;
         cout << endl;
 
-        mostrarDatosLib(ab, id_busqueda);
+        mostrarDatosLib(ab, id_aux, 1);
         break;
       case 4:
-        cout << "Por favor, inserte el codigo del pedido a buscar respetando el formato establecido [P000A00]: ";
+        cout << "Por favor, inserte el codigo del pedido a buscar respetando el formato establecido [P00000]: ";
         cin >> id_ped_aux;
 
         cout<<endl;
@@ -111,17 +111,41 @@ int main(){
         cout<<setw(7)<<"ID Lib"<<"|"<<setw(10)<<"ID_Pedido"<<"|"<<setw(8)<<"Codigo"<<"|"<<setw(12)<<"Materia"<<"|"<<setw(4)<<"U"<<"|"<<setw(11)<<"Fecha"<<"|"<<endl;
         cout<<"----------------------------------------------------------"<<endl;
 
-        ab.InOrdenPedidos(findOrExtractPedido, id_ped_aux, 0);
+        ab.InOrdenPedidos(findOrExtractPedido, id_ped_aux);
         
         break;
       case 5:
-        cout << "Por favor, inserte el codigo del pedido a buscar respetando el formato establecido [P000A00]: ";
+        cout << "Por favor, inserte el codigo del pedido a buscar respetando el formato establecido [P00000]: ";
         cin >> id_ped_aux;
         cout<<endl;
         cout << "Si no se muestra nada, no se ha encontrado el pedido."<<endl<<endl;
         ab.InOrdenPedidos(findOrExtractPedido, id_ped_aux, 1);
 
         break;
+      case 6:{
+        cout << "Elija una de las librerias disponibles: "<<endl;
+        id_libs.recorrerListaID();
+        cin >> id_aux; cout<<endl;
+        mostrarDatosLib(ab, id_aux, 1); // Hay que cambiarla a que muestre los pedidos
+        cout << "Elija uno de los pedidos disponibles en la libreria mostrada: "; cin >> id_ped_aux; cout << endl;
+        Pedido ped = ab.encontrarLib(id_aux).listaPedidos->estaPed(id_ped_aux);
+        findOrExtractPedido(ab.encontrarLib(id_aux), id_ped_aux, 1);
+        cout<<"Elija la libreria deseada a mover el pedido: ";
+        id_libs.recorrerListaID();
+        cin >> id_aux;
+        cout<<"Insertando pedido..."<<endl;
+        ped.id_libreria = id_aux;
+        ab.encontrarLib(id_aux).listaPedidos->insertarNodo(ped);
+        break;
+      }
+      case 7:{
+        cantMaterias(id_libs, ab);
+        break;
+      }
+      case 8:{
+        init_ccontrol(id_libs, ab, 1);
+        break;
+      }
     }
 
   }while(opcion!=0);

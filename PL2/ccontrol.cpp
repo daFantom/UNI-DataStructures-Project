@@ -1,6 +1,7 @@
 #include "ccontrol.h"
 #include <string>
 #include <iomanip>
+# include <algorithm>
 
 using namespace std;
 
@@ -116,10 +117,12 @@ void ListaPedidos::recorrerLista()
 {
     pNodoListaPedidos aux;
     aux = cabeza;
-
+    cout<<"----------------------------------------------------------"<<endl;
+    cout<<setw(7)<<"ID Lib"<<"|"<<setw(10)<<"ID_Pedido"<<"|"<<setw(8)<<"Codigo"<<"|"<<setw(12)<<"Materia"<<"|"<<setw(4)<<"U"<<"|"<<setw(11)<<"Fecha"<<"|"<<endl;
+    cout<<"----------------------------------------------------------"<<endl;
     while(aux)
     {
-        cout << aux->pedido.id_pedido << "-> ";
+        mostrarPedido(aux->pedido);
         aux = aux->siguiente;
     }
     cout << endl;
@@ -169,6 +172,24 @@ Pedido ListaPedidos::estaPed(string id_pedido){
         }
     }
     return ped;
+}
+
+// ---------------------------  CONTADOR DE UNA MATERIA EN UNA LISTA DE PEDIDOS ---------------------------
+// Recibe una cadena correspondiente a una materia y devuelve cuantos pedidos tienen dicha materia de una lista de pedidos.
+int ListaPedidos::countMateria(string mat){
+    int cont = 0;
+    pNodoListaPedidos aux;
+    aux = cabeza;
+    while (aux!=nullptr){
+        if(aux->pedido.materia == mat){
+            cont++;
+            aux = aux->siguiente;
+        }
+        else{
+            aux = aux->siguiente;
+        }
+    }
+    return cont;
 }
 
 
@@ -657,14 +678,14 @@ void showMenu(){
 // ---------------------------  INICIALIZACION DEL PROGRAMASI FLAG==0, EN OTRO CASO, CREA 30 PEDIDOS NUEVOS ---------------------------
 void init_ccontrol(ListaIdentificadores &id_libs, ArbolABB &ab, int flag){
 
-    int i;
+    int i, amount;
 
     if(!flag){
         for(i=0; i < N_LIBRERIAS; i++){
             Libreria lib = genLibreria();
             id_libs.insertarNodo(lib.id_libreria);
             ab.Insertar(lib);
-            mostrarLibreria(lib);
+            mostrarDatosLib(ab, lib.id_libreria);
         }
     }
 
@@ -683,18 +704,17 @@ void init_ccontrol(ListaIdentificadores &id_libs, ArbolABB &ab, int flag){
         lib.listaPedidos->insertarNodo(ped);
     }
 
-    cout<<endl; // Lo mismo que el otro salto de linea (MUY IMPORTANTE, DEBE ESTAR, SI NO, LLORO PQ ESTA TODO MUY JUNTO QWQ
+    cout<<endl<<endl;; // Lo mismo que el otro salto de linea (MUY IMPORTANTE, DEBE ESTAR, SI NO, LLORO PQ ESTA TODO MUY JUNTO QWQ
+
+    if(!flag){
+        cout<<"Librerias actualizadas: "<<endl;
+        amount = id_libs.contarElementos();
+        for(i = 0; i < amount; i++){
+            mostrarDatosLib(ab, id_libs.conseguirNodoN(i));
+        }
+    }
 
 }
-
-
-// ---------------------------  FUNCION PARA MOSTRAR LOS DATOS Y CONTENIDO DE UNA LIBRERIA ---------------------------
-void mostrarLibreria(Libreria lib){
-
-    cout<<"ID_LIB: "<<lib.id_libreria<<" - Localidad: "<<lib.localidad <<" - Num Pedidos: "<<lib.listaPedidos->contarPedidosLib()<<endl;
-
-}
-
 
 // ---------------------------  FUNCION PARA MOSTRAR LOS DATOS DE UN PEDIDO ---------------------------
 void mostrarPedido(Pedido ped){
@@ -728,19 +748,19 @@ Pedido genPedido (string id_libreria){
     char letraAleat;
     Pedido ped;
     letraAleat = abecedario[rand()%(sizeof(abecedario)/sizeof(abecedario[0]))];
-    numaleat1=rand()%999; // Se coge un numero de entre 0 y 998 de forma pseudoaleatoria.
-    numaleat2=rand()%99;
+    numaleat1=rand()%998+1; // Se coge un numero de entre 0 y 998 de forma pseudoaleatoria.
+    numaleat2=rand()%98+1;
     string cod_libro = to_string(numaleat1)+letraAleat+to_string(numaleat2);
 
-    string cantidad = to_string(rand()%21);
+    string cantidad = to_string(rand()%20+1);
 
-    string fecha_envio = to_string(rand()%32)+"-"+to_string(rand()%13)+"-2025";
+    string fecha_envio = to_string(rand()%31+1)+"-"+to_string(rand()%12+1)+"-2025";
 
     string materias[6] ={"Matematicas","Fisica","Tecnologia","Musica","Historia", "Lengua"};
 
     string materia = materias[rand()%(sizeof(materias)/sizeof(materias[0]))];
 
-    string id_pedido = "P"+to_string(rand()%99999);
+    string id_pedido = "P"+to_string(rand()%99998+1);
 
     ped = {id_libreria,id_pedido,cod_libro,materia,cantidad,fecha_envio};
 
@@ -755,10 +775,17 @@ pNodoArbol crearNodoLib(Libreria lib){
 
 
 // ---------------------------  MOSTRAR LOS DATOS DE UNA LIBRERIA DADA(CORRESPONDIENTE A OPCION 3) ---------------------------
-void mostrarDatosLib(ArbolABB &ab, string id){
+void mostrarDatosLib(ArbolABB &ab, string id, int flag){
+
     Libreria lib = ab.encontrarLib(id);
-    if(lib.id_libreria != " "){
-        cout<<"ID_LIB: "<<lib.id_libreria<<" - Localidad: "<<lib.localidad<<" - Numero de pedidos: "<<lib.listaPedidos->contarPedidosLib()<<endl<<endl;
+
+    if(lib.id_libreria != " " && flag){
+        cout<<"ID_LIB: "<<lib.id_libreria<<" - Localidad: "<<lib.localidad<<" - Pedidos: "<<endl;
+        lib.listaPedidos->recorrerLista();
+    }
+    else if(lib.id_libreria != " " && !flag){
+        
+        cout<<"ID_LIB: "<<lib.id_libreria<<" - Localidad: "<<lib.localidad <<" - Num Pedidos: "<<lib.listaPedidos->contarPedidosLib()<<endl;
     }
     else{
         cout<<"No se ha encontrado la libreria con el codigo: "<<id<<". Por favor, intentelo de nuevo con unos datos validos."<<endl;
@@ -776,11 +803,9 @@ void findOrExtractPedido(Libreria lib, string id_pedido, int flag){
     bool esPedidoVacio = (ped.id_pedido == " ");
 
     if( (!esPedidoVacio) && flag){
-        //mostrarPedido(ped);
         lib.listaPedidos->borrarNodo(ped);
         cout<<"Se ha borrado el pedido con identificador "<<id_pedido<<" de la biblioteca con identificador "<<lib.id_libreria<<endl;
         cout<<"La materia de los libros de dicho pedido han sido de: "<<materia<<endl;
-        mostrarLibreria(lib);
         return;
 
     }
@@ -806,6 +831,32 @@ bool nuevaLibManual(string idlib, string loc, ArbolABB &abb, ListaIdentificadore
     }
     return true;
 }
+
+// ---------------------------  MOSTRAR LA CANTIDAD DE CADA MATERIA DE LIBROS ---------------------------
+// Muestra por pantalla la cantidad de todas las materias que existen de las librerias en un arbol.
+void cantMaterias(ListaIdentificadores &lids, ArbolABB &ab){
+    int mates = 0, lengua = 0, hist = 0, fisica = 0, tecno = 0, musica = 0, amount = lids.contarElementos(), i;
+    Libreria lib_aux;
+    for(i = 0; i < amount; i++){
+        lib_aux = ab.encontrarLib(lids.conseguirNodoN(i));
+        mates+=lib_aux.listaPedidos->countMateria("Matematicas");
+        lengua+=lib_aux.listaPedidos->countMateria("Lengua");
+        hist+=lib_aux.listaPedidos->countMateria("Historia");
+        fisica+=lib_aux.listaPedidos->countMateria("Fisica");
+        tecno+=lib_aux.listaPedidos->countMateria("Tecnologia");
+        musica+=lib_aux.listaPedidos->countMateria("Musica");
+    }
+    cout<<"============ Mostrando la cantidad de cada tipo de materia ============"<<endl<<endl;
+    cout<<"Existen "<<mates<<" pedidos cuya materia de los libros es Matematicas."<<endl;
+    cout<<"Existen "<<lengua<<" pedidos cuya materia de los libro es Lengua."<<endl;
+    cout<<"Existen "<<hist<<" pedidos cuya materia de los libro es Historia."<<endl;
+    cout<<"Existen "<<fisica<<" pedidos cuya materia de los libro es Fisica."<<endl;
+    cout<<"Existen "<<tecno<<" pedidos cuya materia de los libro es Tecnologia."<<endl;
+    cout<<"Existen "<<musica<<" pedidos cuya materia de los libro es Musica."<<endl;
+
+    return;
+}
+
 
 // --------------------------- LEER UN ARRAY DE STRINGS ---------------------------
 void readLocalidades(string arr[20]){

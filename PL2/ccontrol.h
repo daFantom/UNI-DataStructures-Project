@@ -75,6 +75,7 @@ public:
     void recorrerLista();
     int contarPedidosLib();
     Pedido estaPed(string id);
+    int countMateria(string mat);
 
 };
 
@@ -207,7 +208,7 @@ class ArbolABB
         void InOrden(void (*func)(Libreria), pNodoArbol nodo=NULL, bool r=true);
         void PreOrden(void (*func)(Libreria), pNodoArbol nodo=NULL, bool r=true);
         void PostOrden(void (*func)(Libreria), pNodoArbol nodo=NULL, bool r=true);
-        void InOrdenPedidos(void (*func)(Libreria, string, int), string id_ped, int flag, pNodoArbol nodo=NULL, bool r=true);
+        void InOrdenPedidos(void (*func)(Libreria, string, int), string id_ped, int flag = 0, pNodoArbol nodo=NULL, bool r=true);
 
         //Buscar libreria por su id
         Libreria encontrarLib(string id);
@@ -228,24 +229,23 @@ void showMenu();
 
 void init_ccontrol(ListaIdentificadores &id_libs, ArbolABB &ab, int flags);
 
-void mostrarLibreria(Libreria lib);
-
 void mostrarPedido(Pedido ped);
 
 Libreria genLibreria();
 
 Pedido genPedido (string id_libreria);
 
-void mostrarDatosLib(ArbolABB &ab, string id);
+void mostrarDatosLib(ArbolABB &ab, string id, int flag = 0);
 
 NodoArbol* crearNodoLib(Libreria lib);
 
-void findOrExtractPedido(Libreria lib, string id_pedido, int flag);
+void findOrExtractPedido(Libreria lib, string id_pedido, int flag = 0);
 
 bool nuevaLibManual(string idlib, string loc, ArbolABB &abb, ListaIdentificadores &ids);
 
 void readLocalidades(string arr[20]);
 
+void cantMaterias(ListaIdentificadores &lids, ArbolABB &ab);
 
 
 
